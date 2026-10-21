@@ -1,0 +1,32 @@
+:root {
+  --bg: #071512; --panel: #0f2420; --line: #1f3a34;
+  --ink: #e8f3f0; --ink-dim: #9fb8b1; --jade: #3fd1a8;
+  --display: "Chakra Petch", "Bahnschrift", system-ui, sans-serif;
+  --body: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+a { color: var(--jade); }
+.nav { border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+.brand img { width: 32px; height: 32px; }
+.nav a.back { font-size: .9rem; color: var(--ink-dim); text-decoration: none; }
+.nav a.back:hover { color: var(--ink); }
+.wrap { width: min(820px, 100% - 32px); margin-inline: auto; }
+main { padding: 48px 0 80px; }
+h1 { font-family: var(--display); font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.1; margin: 0 0 8px; }
+.updated { color: var(--ink-dim); font-size: .9rem; margin: 0 0 32px; }
+.summary { padding: 18px 22px; border: 1px solid color-mix(in srgb, var(--jade) 40%, var(--line)); border-radius: 14px; background: color-mix(in srgb, var(--jade) 7%, var(--panel)); margin-bottom: 36px; }
+.summary p { margin: 0; }
+h2 { font-family: var(--display); font-size: 1.35rem; margin: 40px 0 10px; }
+h3 { font-size: 1.02rem; margin: 22px 0 6px; }
+p, li { color: color-mix(in srgb, var(--ink) 88%, var(--ink-dim)); }
+ul { padding-left: 22px; }
+li { margin: 4px 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .93rem; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--display); font-weight: 600; color: var(--ink-dim); }
+.table-scroll { overflow-x: auto; }
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--ink-dim); font-size: .85rem; }
+footer a { color: var(--ink-dim); margin-right: 16px; }
