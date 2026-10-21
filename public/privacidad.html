@@ -22,7 +22,7 @@
 
   <main class="wrap">
     <h1>Política de Privacidad</h1>
-    <p class="updated">Última actualización: 21 de octubre de 2026</p>
+    <p class="updated">Última actualización: 21 de octubre de 2026 · Se agregó YouTube</p>
 
     <div class="summary">
       <p><b>En corto:</b> Zeni funciona sin cuenta y, sin ella, tus juegos y ajustes nunca salen de tu PC. Si creas una cuenta, guardamos solo lo necesario para sincronizar tus datos y mostrar tu rango y tus streams. No vendemos tus datos, no mostramos publicidad y puedes pedir que borremos todo cuando quieras.</p>
@@ -49,7 +49,7 @@
         <tr><td><b>Contraseña</b></td><td>Iniciar sesión. Nunca guardamos tu contraseña: solo un resumen cifrado (Argon2id) que no se puede revertir.</td></tr>
         <tr><td><b>Sesiones</b></td><td>Mantenerte conectado. Guardamos un resumen cifrado de la sesión, la fecha de vencimiento (30 días) y el tipo de aplicación desde la que entraste.</td></tr>
         <tr><td><b>Datos sincronizados</b></td><td>Tener tu Zeni igual en cualquier PC: tus ajustes (incluido tu Riot ID y servidor, límite diario, stop-loss y rango de Valorant), favoritos, colores, tema e historial de ranked anotado (juego, victoria o derrota y fecha).</td></tr>
-        <tr><td><b>Cuentas vinculadas</b></td><td>Si vinculas Twitch, Kick, Discord o YouTube: el identificador, nombre de usuario, nombre visible y foto de perfil de esa plataforma.</td></tr>
+        <tr><td><b>Cuentas vinculadas</b></td><td>Si vinculas Twitch, Kick, Discord o YouTube: el identificador, nombre de usuario, nombre visible y foto de perfil de esa plataforma. Para Twitch y YouTube, además, el acceso cifrado que permite mostrar quién está en vivo.</td></tr>
         <tr><td><b>Canales de Kick</b></td><td>Los canales que agregas en la sección "En vivo", para mostrarte cuándo transmiten.</td></tr>
         <tr><td><b>Comentarios</b></td><td>Si usas "Enviar comentarios": el mensaje, su tipo, la versión de Zeni, tu cuenta (si tenías sesión) y el correo de contacto solo si lo dejas.</td></tr>
       </table>
@@ -58,10 +58,14 @@
     <h3>Permisos que pedimos al vincular cuentas</h3>
     <ul>
       <li><b>Twitch:</b> ver los canales que sigues, para mostrarte quién está en vivo. Para eso guardamos el acceso que entrega Twitch, <b>cifrado</b> (AES-256-GCM).</li>
+      <li><b>YouTube (Google):</b> solo lectura de tu perfil, tu canal y la lista de canales a los que estás suscrito, para mostrarte cuáles están en vivo. Para eso guardamos el acceso que entrega Google, <b>cifrado</b> (AES-256-GCM). No publicamos nada, no cambiamos tus suscripciones y no leemos tu historial ni tus comentarios.</li>
       <li><b>Kick y Discord:</b> solo leer tu perfil básico. No guardamos accesos a esas cuentas.</li>
-      <li><b>YouTube (Google):</b> perfil básico y lectura de tu cuenta de YouTube, cuando esta función esté disponible.</li>
     </ul>
-    <p>Nunca vemos tu contraseña de esas plataformas: la autorización ocurre en su propia página. Al desvincular una cuenta, borramos sus datos y anulamos el acceso ante la plataforma.</p>
+    <p>Nunca vemos tu contraseña de esas plataformas: la autorización ocurre en su propia página. Al desvincular una cuenta, borramos sus datos y anulamos el acceso ante la plataforma. También puedes quitarle el acceso a Zeni directamente desde cada plataforma; en Google, desde <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">la configuración de seguridad de tu cuenta</a>.</p>
+
+    <h3>Datos de YouTube y Google</h3>
+    <p>Zeni usa los Servicios de API de YouTube. Al vincular YouTube, también aplica la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidad de Google</a>. Usamos tus suscripciones solo para mostrarte, a ti, qué canales están en vivo: las guardamos en memoria por unas horas y no las compartimos con nadie.</p>
+    <p>El uso y la transferencia que hace ZeniPlatform de la información recibida de las API de Google cumple con la <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Política de Datos de Usuario de los Servicios de API de Google</a>, incluidos los requisitos de Uso Limitado.</p>
 
     <h3>Tu rango de League of Legends</h3>
     <p>Para mostrar tu rango y tus partidas de hoy, nuestro servidor consulta la API oficial de Riot Games con tu Riot ID y servidor. La respuesta se envía a tu app y no la guardamos en el servidor.</p>
@@ -84,7 +88,7 @@
       <li><b>Vercel:</b> aloja este sitio web.</li>
       <li><b>GitHub:</b> aloja los instaladores y las actualizaciones.</li>
       <li><b>Discord:</b> recibimos ahí los comentarios que nos envías, en un canal privado del equipo.</li>
-      <li><b>Riot Games, Twitch, Kick, Discord y Google:</b> solo cuando usas la función relacionada (rango, "En vivo" o vincular cuentas), y solo lo necesario para esa función.</li>
+      <li><b>Riot Games, Twitch, Kick, Discord y Google (YouTube):</b> solo cuando usas la función relacionada (rango, "En vivo" o vincular cuentas), y solo lo necesario para esa función.</li>
     </ul>
     <p>Si activas "Mostrar mi actividad en Discord", Zeni comparte con la app de Discord de tu PC lo que estás haciendo en Zeni (por ejemplo, qué juego estás eligiendo). Lo puedes desactivar en Ajustes.</p>
 
