@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024">
+  <!-- Logo ZeniPlatform: moneda zeni (銭) con inscripción en el borde.
+       Fuentes: Chakra Petch 700 (latín) y Shippori Mincho B1 800 (銭), de Google Fonts. -->
+  <defs>
+    <linearGradient id="zp-coin" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3fd1a8"/>
+      <stop offset=".55" stop-color="#12a07c"/>
+      <stop offset="1" stop-color="#ffb547"/>
+    </linearGradient>
+    <mask id="zp-hole">
+      <rect width="100" height="100" fill="#fff"/>
+      <rect x="39" y="39" width="22" height="22" rx="2" fill="#000"/>
+    </mask>
+    <path id="zp-ring" d="M50 15 A35 35 0 1 1 49.99 15"/>
+  </defs>
+  <g mask="url(#zp-hole)">
+    <circle cx="50" cy="50" r="46" fill="url(#zp-coin)"/>
+    <circle cx="50" cy="50" r="42" fill="none" stroke="#10242a" stroke-opacity=".4" stroke-width="1.5"/>
+    <circle cx="50" cy="50" r="28" fill="none" stroke="#10242a" stroke-opacity=".4" stroke-width="1.5"/>
+    <rect x="35" y="35" width="30" height="30" rx="3" fill="none" stroke="#10242a" stroke-opacity=".35" stroke-width="2"/>
+  </g>
+  <text font-family="Chakra Petch, Shippori Mincho B1, sans-serif" font-weight="700" font-size="9" fill="#10242a" dominant-baseline="central">
+    <textPath href="#zp-ring" textLength="214" lengthAdjust="spacing">ZENI · 銭 · ZENI · 銭 ·</textPath>
+  </text>
+</svg>

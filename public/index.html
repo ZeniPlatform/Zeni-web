@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZeniPlatform · El launcher que te frena antes de tiltear</title>
+  <meta name="description" content="Launcher gratuito para Windows: tus juegos de Steam, Epic, Riot y Xbox en un solo lugar, con rango y LP de League of Legends, stop-loss, límite de ranked y streams de Twitch y Kick.">
+  <meta name="theme-color" content="#071512">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ZeniPlatform · El launcher que te frena antes de tiltear">
+  <meta property="og:description" content="Gratis para Windows. Rango y LP en vivo, stop-loss, límite de ranked y Twitch + Kick en una sola app.">
+  <meta property="og:image" content="/img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #071512; --bg-2: #0b1d19; --panel: #0f2420; --line: #1f3a34;
+      --ink: #e8f3f0; --ink-dim: #9fb8b1; --jade: #3fd1a8; --jade-ink: #04211a;
+      --amber: #ffb547; --red: #ff4d5e; --twitch: #a970ff; --kick: #53fc18; --kofi: #ff5e5b;
+      --display: "Chakra Petch", "Bahnschrift", system-ui, sans-serif;
+      --body: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; }
+    .wrap { width: min(var(--max), 100% - 32px); margin-inline: auto; }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0; letter-spacing: .01em; }
+    em { font-style: normal; color: var(--jade); }
+
+    /* Barra superior */
+    .nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+    .nav .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 1.2rem; text-decoration: none; }
+    .brand img { width: 34px; height: 34px; }
+    .nav-links { display: flex; gap: 22px; margin-left: auto; font-size: .92rem; }
+    .nav-links a { text-decoration: none; color: var(--ink-dim); }
+    .nav-links a:hover { color: var(--ink); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 22px; border-radius: 12px; font-family: var(--display); font-weight: 700; font-size: 1rem; text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, filter .15s ease, border-color .15s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-main { background: var(--jade); color: var(--jade-ink); box-shadow: 0 12px 40px -12px color-mix(in srgb, var(--jade) 70%, transparent); }
+    .btn-main:hover { filter: brightness(1.08); }
+    .btn-ghost { border-color: var(--line); color: var(--ink); background: var(--panel); }
+    .btn-ghost:hover { border-color: var(--ink-dim); }
+    .btn-sm { padding: 8px 14px; font-size: .9rem; }
+    .btn svg { width: 20px; height: 20px; flex: none; }
+
+    /* Portada */
+    .hero { position: relative; overflow: hidden; padding: 80px 0 40px; text-align: center; }
+    .hero::before { content: ""; position: absolute; inset: -20% -10% auto; height: 700px; background: radial-gradient(600px 380px at 30% 30%, rgba(63, 209, 168, .22), transparent 70%), radial-gradient(600px 420px at 75% 20%, rgba(255, 181, 71, .12), transparent 70%); pointer-events: none; }
+    .hero > .wrap { position: relative; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-dim); font-size: .85rem; margin-bottom: 22px; }
+    .pill b { color: var(--jade); }
+    .hero h1 { font-size: clamp(2.3rem, 6vw, 4.3rem); max-width: 16ch; margin: 0 auto 18px; }
+    .hero h1 .r { color: var(--red); }
+    .hero p.lead { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--ink-dim); max-width: 60ch; margin: 0 auto 32px; }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-note { margin-top: 14px; font-size: .85rem; color: var(--ink-dim); }
+    .shot { margin: 56px auto 0; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 50px 120px -40px rgba(0, 0, 0, .9), 0 0 0 1px rgba(63, 209, 168, .15); }
+
+    /* Plataformas */
+    .stores { padding: 28px 0 10px; text-align: center; color: var(--ink-dim); font-size: .92rem; }
+    .stores ul { list-style: none; padding: 0; margin: 12px 0 0; display: flex; gap: 10px 26px; justify-content: center; flex-wrap: wrap; font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--ink); }
+
+    /* Secciones */
+    section { padding: 80px 0; }
+    .section-head { text-align: center; margin-bottom: 44px; }
+    .section-head h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); margin-bottom: 12px; }
+    .section-head p { color: var(--ink-dim); max-width: 58ch; margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .card { padding: 22px; border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(180deg, var(--panel), var(--bg-2)); }
+    .card .ic { font-size: 1.6rem; margin-bottom: 10px; }
+    .card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+    .card p { margin: 0; color: var(--ink-dim); font-size: .95rem; }
+
+    /* Funciones destacadas (imagen + texto) */
+    .feature { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; }
+    .feature + .feature { margin-top: 90px; }
+    .feature.flip > :first-child { order: 2; }
+    .feature img { border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
+    .feature h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 14px; }
+    .feature p { color: var(--ink-dim); margin: 0 0 14px; }
+    .feature ul { margin: 0; padding-left: 20px; color: var(--ink-dim); }
+    .feature li { margin: 6px 0; }
+    .tag { display: inline-block; font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--jade); margin-bottom: 10px; }
+    .t { color: var(--twitch); } .k { color: var(--kick); }
+
+    /* Video */
+    .video { display: grid; grid-template-columns: auto 1fr; gap: 48px; align-items: center; }
+    .video video { width: 300px; border-radius: 22px; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px #000; background: #000; }
+
+    /* Preguntas */
+    .faq { max-width: 780px; margin: 0 auto; display: grid; gap: 10px; }
+    .faq details { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); padding: 4px 20px; }
+    .faq summary { cursor: pointer; font-family: var(--display); font-weight: 600; font-size: 1.05rem; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; color: var(--jade); font-size: 1.3rem; line-height: 1; }
+    .faq details[open] summary::after { content: "−"; }
+    .faq details p { margin: 0 0 16px; color: var(--ink-dim); }
+
+    /* Descarga y apoyo */
+    .final { text-align: center; padding: 90px 0; position: relative; overflow: hidden; }
+    .final::before { content: ""; position: absolute; inset: 0; background: radial-gradient(600px 300px at 50% 40%, rgba(63, 209, 168, .16), transparent 70%); pointer-events: none; }
+    .final > .wrap { position: relative; }
+    .final img.logo { width: 120px; height: 120px; margin: 0 auto 20px; }
+    .final h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 12px; }
+    .final p { color: var(--ink-dim); margin: 0 auto 28px; max-width: 50ch; }
+    .kofi { margin: 56px auto 0; max-width: 640px; padding: 26px; border-radius: 18px; border: 1px solid color-mix(in srgb, var(--kofi) 40%, var(--line)); background: color-mix(in srgb, var(--kofi) 7%, var(--panel)); }
+    .kofi h3 { font-size: 1.3rem; margin-bottom: 8px; }
+    .kofi p { margin: 0 0 18px; }
+    .btn-kofi { background: var(--kofi); color: #fff; }
+
+    footer { border-top: 1px solid var(--line); padding: 32px 0 44px; color: var(--ink-dim); font-size: .82rem; }
+    footer .row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+    footer a { color: var(--ink-dim); }
+    footer .legal { opacity: .75; max-width: 90ch; }
+
+    /* Aparición al hacer scroll */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1); }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } .btn:hover { transform: none; } }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .nav .btn { margin-left: auto; }
+      .feature, .video { grid-template-columns: 1fr; gap: 28px; }
+      .feature.flip > :first-child { order: 0; }
+      .video video { width: min(300px, 100%); margin: 0 auto; }
+      section { padding: 60px 0; }
+      .hero { padding-top: 56px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="#"><img src="/img/logo.svg" alt="">ZeniPlatform</a>
+      <nav class="nav-links" aria-label="Secciones">
+        <a href="#funciones">Funciones</a>
+        <a href="#preguntas">Preguntas</a>
+        <a href="#apoyar">Apoyar</a>
+      </nav>
+      <a class="btn btn-main btn-sm" href="#descargar">Descargar gratis</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <span class="pill"><b>Gratis</b> · Windows 10 y 11 · Se actualiza solo</span>
+        <h1>El launcher que te <span class="r">frena</span> antes de tiltear</h1>
+        <p class="lead">Tus juegos de Steam, Epic, Riot y Xbox en un solo lugar. Con tu rango y LP a la vista, stop-loss, límite de ranked y tus streamers de Twitch y Kick en vivo.</p>
+        <div class="cta-row">
+          <a class="btn btn-main" data-download href="#descargar">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.1 10.4 4v7.1H3zm0 13.8L10.4 20v-7.1H3zm8.3 1.2L21 21.5v-8.6h-9.7zm0-16.2v7.3H21V2.5z"/></svg>
+            Descargar para Windows
+          </a>
+          <a class="btn btn-ghost" href="#funciones">Ver funciones</a>
+        </div>
+        <p class="cta-note">Instalador de ~3 MB · Sin anuncios · Sin cuenta obligatoria</p>
+        <img class="shot reveal" src="/img/s1-library.webp" width="1600" height="900" alt="Biblioteca de ZeniPlatform con League of Legends, Valorant y otros juegos, rango y sesión de hoy">
+      </div>
+    </section>
+
+    <div class="stores">
+      <div class="wrap">
+        Detecta tus juegos de
+        <ul><li>Steam</li><li>Epic Games</li><li>Riot</li><li>Xbox</li></ul>
+      </div>
+    </div>
+
+    <section id="funciones">
+      <div class="wrap">
+        <div class="feature reveal">
+          <img src="/img/s3-guard.webp" width="1600" height="900" loading="lazy" alt="Aviso de stop-loss: llevas 2 derrotas seguidas en League of Legends">
+          <div>
+            <span class="tag">Stop-loss</span>
+            <h3>"Una más y me voy"… <em>ya no.</em></h3>
+            <p>Zeni cuenta tus partidas de hoy. Si pierdes varias seguidas, te avisa antes de abrir otra ranked y te recomienda un descanso. Tú decides, pero ahora lo piensas dos veces.</p>
+            <ul>
+              <li>Stop-loss configurable: tú eliges tras cuántas derrotas.</li>
+              <li>Límite diario de ranked.</li>
+              <li>Funciona con League of Legends y Valorant.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature flip reveal">
+          <img src="/img/s2-drawer.webp" width="1600" height="900" loading="lazy" alt="Ficha de League of Legends con rango Oro II, 64 LP y partidas de hoy">
+          <div>
+            <span class="tag">Rango en vivo</span>
+            <h3>Tu <em>rango y LP</em> siempre a la vista</h3>
+            <p>Escribe tu Riot ID una vez y Zeni muestra tu rango, tus LP y las partidas de hoy, con campeón y KDA, directamente en la biblioteca.</p>
+          </div>
+        </div>
+
+        <div class="feature reveal">
+          <img src="/img/s5-live.webp" width="1600" height="900" loading="lazy" alt="Sección En vivo con streams de Twitch y Kick">
+          <div>
+            <span class="tag">En vivo</span>
+            <h3><span class="t">Twitch</span> y <span class="k">Kick</span> sin abrir el navegador</h3>
+            <p>Vincula tus cuentas y mira qué streamers que sigues están en vivo. Tócalos y el stream se abre dentro de Zeni, junto a OP.GG, U.GG, LoLalytics y Tracker.gg.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>Todo lo que necesitas, <em>nada que estorbe</em></h2>
+          <p>Ligero, rápido y pensado para jugadores competitivos.</p>
+        </div>
+        <div class="grid">
+          <div class="card reveal"><div class="ic">🎮</div><h3>Una sola biblioteca</h3><p>Steam, Epic, Riot y Xbox juntos, con portadas y ficha de cada juego.</p></div>
+          <div class="card reveal"><div class="ic">☁️</div><h3>Tu Zeni en cualquier PC</h3><p>Inicia sesión y tus ajustes, favoritos e historial de ranked se sincronizan solos.</p></div>
+          <div class="card reveal"><div class="ic">🔄</div><h3>Se actualiza solo</h3><p>Versiones nuevas con un clic, firmadas para que solo se instale Zeni oficial.</p></div>
+          <div class="card reveal"><div class="ic">🎨</div><h3>A tu estilo</h3><p>Cinco paletas de color, tema claro u oscuro y estética de cibercafé asiático.</p></div>
+          <div class="card reveal"><div class="ic">💬</div><h3>Discord</h3><p>Muestra en tu perfil de Discord lo que estás haciendo en Zeni.</p></div>
+          <div class="card reveal"><div class="ic">⚡</div><h3>Liviano</h3><p>Instalador de ~3 MB y mucho más liviano que tener un navegador abierto.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap video">
+        <video class="reveal" src="/img/demo.mp4" poster="/img/demo-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="Video de demostración de ZeniPlatform"></video>
+        <div class="reveal">
+          <span class="tag">En 30 segundos</span>
+          <h3 style="font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 14px;">Mira Zeni en acción</h3>
+          <p style="color: var(--ink-dim);">Abre la app, revisa tu rango, mira quién está en vivo y deja que Zeni te cuide el LP.</p>
+          <a class="btn btn-main" data-download href="#descargar" style="margin-top: 10px;">Descargar gratis</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="preguntas">
+      <div class="wrap">
+        <div class="section-head reveal"><h2>Preguntas frecuentes</h2></div>
+        <div class="faq">
+          <details class="reveal"><summary>¿Es gratis?</summary><p>Sí, y siempre lo será para jugadores. Sin anuncios y sin vender tus datos.</p></details>
+          <details class="reveal"><summary>Windows dice "Windows protegió su PC". ¿Es seguro?</summary><p>Sí. Aparece porque Zeni es una app nueva y todavía no tiene un certificado de firma de Windows (son muy caros para un proyecto independiente). Haz clic en <b>Más información → Ejecutar de todas formas</b>. Las actualizaciones sí van firmadas: Zeni solo instala versiones oficiales.</p></details>
+          <details class="reveal"><summary>¿Necesito crear una cuenta?</summary><p>No. La biblioteca, el stop-loss y el límite de ranked funcionan sin cuenta. La cuenta de Zeni es opcional y sirve para ver tu rango de LoL, sincronizar entre PCs y vincular Twitch y Kick.</p></details>
+          <details class="reveal"><summary>¿Riot puede banearme por usar Zeni?</summary><p>No. Zeni no toca los archivos del juego ni se mete en las partidas: solo abre el juego y consulta tu rango con la API oficial de Riot, igual que OP.GG.</p></details>
+          <details class="reveal"><summary>¿Cómo se actualiza?</summary><p>Solo. Cuando sale una versión nueva, Zeni te avisa y se instala con un clic, sin perder tus datos.</p></details>
+          <details class="reveal"><summary>Encontré un error o tengo una idea</summary><p>¡Cuéntanos! Dentro de Zeni, en la barra lateral, toca <b>Enviar comentarios</b>. Leemos todos los mensajes.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final" id="descargar">
+      <div class="wrap">
+        <img class="logo reveal" src="/img/logo.svg" alt="">
+        <h2 class="reveal">Descarga <em>ZeniPlatform</em></h2>
+        <p class="reveal">Gratis para Windows 10 y 11. Se instala en segundos y se actualiza solo.</p>
+        <div class="cta-row reveal">
+          <a class="btn btn-main" data-download href="#">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.1 10.4 4v7.1H3zm0 13.8L10.4 20v-7.1H3zm8.3 1.2L21 21.5v-8.6h-9.7zm0-16.2v7.3H21V2.5z"/></svg>
+            Descargar para Windows
+          </a>
+        </div>
+        <p class="cta-note reveal" id="version-note">Última versión</p>
+
+        <div class="kofi reveal" id="apoyar">
+          <h3>☕ ¿Zeni te salvó el LP?</h3>
+          <p>Zeni es gratis y lo hacemos en nuestro tiempo libre. Si te gusta, un café ayuda a mantener el servidor y a sumar funciones nuevas.</p>
+          <a class="btn btn-kofi" href="https://ko-fi.com/zushibld" target="_blank" rel="noopener">Apóyanos en Ko-fi</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="row">
+        <span>© 2026 ZeniPlatform</span>
+        <span><a href="https://ko-fi.com/zushibld" target="_blank" rel="noopener">Ko-fi</a></span>
+      </div>
+      <p class="legal">ZeniPlatform isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc. Steam, Epic Games, Xbox, Twitch, Kick, Discord y las demás marcas pertenecen a sus respectivos dueños; ZeniPlatform no está afiliado a ninguno de ellos.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Descarga directa del instalador más reciente.
+    const DOWNLOAD = "https://github.com/ZeniPlatform/releases/releases/latest/download/ZeniPlatform-setup.exe";
+    document.querySelectorAll("[data-download]").forEach((a) => (a.href = DOWNLOAD));
+
+    // Versión publicada (el servidor de Zeni la conoce). Si no responde, el texto queda genérico.
+    fetch("https://zeni-api-production.up.railway.app/v1/app/version")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((v) => { if (v && /^\d+\.\d+\.\d+$/.test(v.latest)) document.getElementById("version-note").textContent = `Versión ${v.latest} · ~3 MB`; })
+      .catch(() => {});
+
+    // Aparición suave al hacer scroll.
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
