@@ -3,17 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ZeniPlatform · El launcher que te frena antes de tiltear</title>
-  <meta name="description" content="Launcher gratuito para Windows: tus juegos de Steam, Epic, Riot y Xbox en un solo lugar, con rango y LP de League of Legends, stop-loss, límite de ranked y streams de Twitch y Kick.">
+  <title>Launcher gratis para LoL y Valorant con stop-loss | ZeniPlatform</title>
+  <meta name="description" content="Zeni es un launcher gratis para Windows: tus juegos de Steam, Epic, Riot y Xbox juntos, tu rango y LP de LoL a la vista, stop-loss contra el tilt y streams de Twitch y Kick.">
   <meta name="theme-color" content="#071512">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="canonical" href="https://www.zeni-platform.cl/">
   <meta property="og:url" content="https://www.zeni-platform.cl/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZeniPlatform">
+  <meta property="og:locale" content="es_CL">
   <meta property="og:title" content="ZeniPlatform · El launcher que te frena antes de tiltear">
   <meta property="og:description" content="Gratis para Windows. Rango y LP en vivo, stop-loss, límite de ranked y Twitch + Kick en una sola app.">
   <meta property="og:image" content="https://www.zeni-platform.cl/img/og.png">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ZeniPlatform · El launcher que te frena antes de tiltear">
+  <meta name="twitter:description" content="Gratis para Windows. Rango y LP en vivo, stop-loss, límite de ranked y Twitch + Kick en una sola app.">
+  <meta name="twitter:image" content="https://www.zeni-platform.cl/img/og.png">
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ZeniPlatform","alternateName":"Zeni","description":"Launcher gratuito para Windows que reúne tus juegos de Steam, Epic, Riot y Xbox, con rango y LP de League of Legends, stop-loss, límite diario de ranked y streams de Twitch, YouTube y Kick.","applicationCategory":"GameApplication","operatingSystem":"Windows 10, Windows 11","url":"https://www.zeni-platform.cl/","downloadUrl":"https://github.com/ZeniPlatform/Zeni-releases/releases/latest/download/ZeniPlatform-setup.exe","image":"https://www.zeni-platform.cl/img/og.png","screenshot":["https://www.zeni-platform.cl/img/s1-library.webp","https://www.zeni-platform.cl/img/s3-guard.webp","https://www.zeni-platform.cl/img/s5-live.webp"],"inLanguage":"es","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"ZeniPlatform","url":"https://www.zeni-platform.cl/","logo":"https://www.zeni-platform.cl/img/icon-192.png"}},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"¿Es gratis?","acceptedAnswer":{"@type":"Answer","text":"Sí, y siempre lo será para jugadores. Sin anuncios y sin vender tus datos."}},{"@type":"Question","name":"Windows dice \"Windows protegió su PC\". ¿Es seguro?","acceptedAnswer":{"@type":"Answer","text":"Sí. Aparece porque Zeni es una app nueva y todavía no tiene un certificado de firma de Windows. Haz clic en Más información → Ejecutar de todas formas. Las actualizaciones sí van firmadas: Zeni solo instala versiones oficiales."}},{"@type":"Question","name":"¿Necesito crear una cuenta?","acceptedAnswer":{"@type":"Answer","text":"No. La biblioteca, el stop-loss y el límite de ranked funcionan sin cuenta. La cuenta de Zeni es opcional y sirve para ver tu rango de LoL, sincronizar entre PCs y vincular Twitch y Kick."}},{"@type":"Question","name":"¿Riot puede banearme por usar Zeni?","acceptedAnswer":{"@type":"Answer","text":"No. Zeni no toca los archivos del juego ni se mete en las partidas: solo abre el juego y consulta tu rango con la API oficial de Riot, igual que OP.GG."}},{"@type":"Question","name":"¿Cómo se actualiza?","acceptedAnswer":{"@type":"Answer","text":"Solo. Cuando sale una versión nueva, Zeni te avisa y se instala con un clic, sin perder tus datos."}}]}]</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -59,7 +67,7 @@
     .hero > .wrap { position: relative; }
     .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-dim); font-size: .85rem; margin-bottom: 22px; }
     .pill b { color: var(--jade); }
-    .hero h1 { font-size: clamp(2.3rem, 6vw, 4.3rem); max-width: 16ch; margin: 0 auto 18px; }
+    .hero h1 { font-size: clamp(2.2rem, 5.4vw, 4rem); max-width: 20ch; margin: 0 auto 18px; }
     .hero h1 .r { color: var(--red); }
     .hero p.lead { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--ink-dim); max-width: 60ch; margin: 0 auto 32px; }
     .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
@@ -152,7 +160,7 @@
     <section class="hero">
       <div class="wrap">
         <span class="pill"><b>Gratis</b> · Windows 10 y 11 · Se actualiza solo</span>
-        <h1>El launcher que te <span class="r">frena</span> antes de tiltear</h1>
+        <h1>El launcher de LoL y Valorant que te <span class="r">frena</span> antes de tiltear</h1>
         <p class="lead">Tus juegos de Steam, Epic, Riot y Xbox en un solo lugar. Con tu rango y LP a la vista, stop-loss, límite de ranked y tus streamers de Twitch y Kick en vivo.</p>
         <div class="cta-row">
           <a class="btn btn-main" data-download href="#descargar">
@@ -162,7 +170,7 @@
           <a class="btn btn-ghost" href="#funciones">Ver funciones</a>
         </div>
         <p class="cta-note">Instalador de ~3 MB · Sin anuncios · Sin cuenta obligatoria</p>
-        <img class="shot reveal" src="/img/s1-library.webp" width="1600" height="900" alt="Biblioteca de ZeniPlatform con League of Legends, Valorant y otros juegos, rango y sesión de hoy">
+        <img class="shot reveal" src="/img/s1-library.webp" width="1600" height="900" fetchpriority="high" alt="Biblioteca de ZeniPlatform con League of Legends, Valorant y otros juegos, rango y sesión de hoy">
       </div>
     </section>
 
@@ -186,6 +194,7 @@
               <li>Límite diario de ranked.</li>
               <li>Funciona con League of Legends y Valorant.</li>
             </ul>
+            <p style="margin-top: 14px;"><a href="/guias/como-no-tiltear-en-lol" style="color: var(--jade);">Lee la guía: cómo no tiltear en LoL →</a></p>
           </div>
         </div>
 
@@ -290,6 +299,7 @@
           <ul>
             <li><a href="#funciones">Funciones</a></li>
             <li><a href="#preguntas">Preguntas frecuentes</a></li>
+            <li><a href="/guias/como-no-tiltear-en-lol">Guía: cómo no tiltear en LoL</a></li>
             <li><a href="https://github.com/ZeniPlatform/Zeni-releases/releases" target="_blank" rel="noopener">Novedades</a></li>
           </ul>
         </nav>
