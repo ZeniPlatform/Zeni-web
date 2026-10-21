@@ -27,7 +27,7 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-    img, video { max-width: 100%; display: block; }
+    img, video { max-width: 100%; height: auto; display: block; }
     a { color: inherit; }
     .wrap { width: min(var(--max), 100% - 32px); margin-inline: auto; }
     h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0; letter-spacing: .01em; }
@@ -82,7 +82,7 @@
     .feature { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; }
     .feature + .feature { margin-top: 90px; }
     .feature.flip > :first-child { order: 2; }
-    .feature img { border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
+    .feature img { margin-inline: auto; max-height: 560px; width: auto; border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
     .feature h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 14px; }
     .feature p { color: var(--ink-dim); margin: 0 0 14px; }
     .feature ul { margin: 0; padding-left: 20px; color: var(--ink-dim); }
@@ -177,7 +177,7 @@
     <section id="funciones">
       <div class="wrap">
         <div class="feature reveal">
-          <img src="/img/s3-guard.webp" width="1600" height="900" loading="lazy" alt="Aviso de stop-loss: llevas 2 derrotas seguidas en League of Legends">
+          <img src="/img/s3-guard.webp" width="1180" height="640" loading="lazy" alt="Aviso de stop-loss: llevas 2 derrotas seguidas en League of Legends">
           <div>
             <span class="tag">Stop-loss</span>
             <h3>"Una más y me voy"… <em>ya no.</em></h3>
@@ -191,7 +191,7 @@
         </div>
 
         <div class="feature flip reveal">
-          <img src="/img/s2-drawer.webp" width="1600" height="900" loading="lazy" alt="Ficha de League of Legends con rango Oro II, 64 LP y partidas de hoy">
+          <img src="/img/s2-drawer.webp" width="900" height="964" loading="lazy" alt="Ficha de League of Legends con rango Oro II, 64 LP y partidas de hoy">
           <div>
             <span class="tag">Rango en vivo</span>
             <h3>Tu <em>rango y LP</em> siempre a la vista</h3>
@@ -200,7 +200,7 @@
         </div>
 
         <div class="feature reveal">
-          <img src="/img/s5-live.webp" width="1600" height="900" loading="lazy" alt="Sección En vivo con streams de Twitch y Kick">
+          <img src="/img/s5-live.webp" width="1500" height="665" loading="lazy" alt="Sección En vivo con streams de Twitch y Kick">
           <div>
             <span class="tag">En vivo</span>
             <h3><span class="t">Twitch</span> y <span class="k">Kick</span> sin abrir el navegador</h3>
