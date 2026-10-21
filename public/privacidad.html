@@ -24,7 +24,7 @@
 
   <main class="wrap">
     <h1>Política de Privacidad</h1>
-    <p class="updated">Última actualización: 21 de octubre de 2026 · Se agregó YouTube</p>
+    <p class="updated">Última actualización: 21 de octubre de 2026 · Versión 2.0: tiempo jugado, pausas Zen, misiones, invitaciones y bot de Discord</p>
 
     <div class="summary">
       <p><b>En corto:</b> Zeni funciona sin cuenta y, sin ella, tus juegos y ajustes nunca salen de tu PC. Si creas una cuenta, guardamos solo lo necesario para sincronizar tus datos y mostrar tu rango y tus streams. No vendemos tus datos, no mostramos publicidad y puedes pedir que borremos todo cuando quieras.</p>
@@ -39,7 +39,14 @@
       <li>La lista de juegos instalados que Zeni detecta (Steam, Epic, Riot, Xbox).</li>
       <li>Tus ajustes, favoritos, juegos recientes, colores y tema.</li>
       <li>Los resultados de ranked que anotas a mano.</li>
+      <li><b>El tiempo jugado</b> por juego y por día (ver abajo cómo se mide).</li>
+      <li>Cuántas veces abres cada juego desde Zeni (últimos 30 días), los matchups que abres en LoLalytics y tus partidas ranked de LoL de los últimos 12 meses: con esto se calculan las misiones, los logros y los marcos animados.</li>
+      <li>El resumen semanal (Zeni Wrapped): se arma en tu PC y la imagen solo sale de él si tú la copias o la guardas para compartirla.</li>
     </ul>
+    <h3>Cómo se mide el tiempo jugado</h3>
+    <p>Mientras Zeni está abierto, cada 30 segundos revisa la lista de programas en ejecución de Windows y la compara con las carpetas de instalación de los juegos de tu biblioteca. Solo anota el tiempo de esos juegos: no mira el contenido de las ventanas, no lee tus archivos ni la memoria de los juegos y no registra los demás programas. El tiempo se guarda solo en tu PC.</p>
+    <h3>Ordenar el escritorio</h3>
+    <p>Si usas "Limpia tu escritorio", Zeni lee los accesos directos de tu escritorio para encontrar juegos y, solo si lo confirmas, los mueve a la carpeta <i>Documentos\Accesos directos (Zeni)</i>. Anota qué movió para poder devolverlos con un clic. Nada de esto sale de tu PC.</p>
     <p>Si inicias sesión, la sesión se guarda en el Administrador de credenciales de Windows de tu PC.</p>
 
     <h2>3. Qué datos guardamos en el servidor</h2>
@@ -53,6 +60,10 @@
         <tr><td><b>Datos sincronizados</b></td><td>Tener tu Zeni igual en cualquier PC: tus ajustes (incluido tu Riot ID y servidor, límite diario, stop-loss y rango de Valorant), favoritos, colores, tema e historial de ranked anotado (juego, victoria o derrota y fecha).</td></tr>
         <tr><td><b>Cuentas vinculadas</b></td><td>Si vinculas Twitch, Kick, Discord o YouTube: el identificador, nombre de usuario, nombre visible y foto de perfil de esa plataforma. Para Twitch y YouTube, además, el acceso cifrado que permite mostrar quién está en vivo.</td></tr>
         <tr><td><b>Canales de Kick</b></td><td>Los canales que agregas en la sección "En vivo", para mostrarte cuándo transmiten.</td></tr>
+        <tr><td><b>Pausas Zen y descansos</b></td><td>Cada pausa Zen o descanso que tomas: el tipo, la fecha, el juego y los LP que se estima que salvaste. Sirve para tu contador de "LP salvado", tus logros y tu nivel en cualquier PC.</td></tr>
+        <tr><td><b>Misiones reclamadas</b></td><td>Qué misión reclamaste (por ejemplo "jugar 1 hora hoy"), la XP que dio y la fecha. El servidor no recibe tu tiempo jugado: solo que completaste la misión.</td></tr>
+        <tr><td><b>Invitaciones</b></td><td>Tu código de invitación y, si alguien se registra con él, quién invitó a quién (para dar las recompensas). Quien te invitó ve tu nombre visible; tú ves el suyo.</td></tr>
+        <tr><td><b>Bot de Discord</b></td><td>Solo si usas los comandos <code>/zeni</code>: los servidores de Discord donde te uniste con <code>/zeni unirme</code> y, para cada servidor, el canal que eligió su administración para los avisos.</td></tr>
         <tr><td><b>Comentarios</b></td><td>Si usas "Enviar comentarios": el mensaje, su tipo, la versión de Zeni, tu cuenta (si tenías sesión) y el correo de contacto solo si lo dejas.</td></tr>
       </table>
     </div>
@@ -69,8 +80,17 @@
     <p>Zeni usa los Servicios de API de YouTube. Al vincular YouTube, también aplica la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidad de Google</a>. Usamos tus suscripciones solo para mostrarte, a ti, qué canales están en vivo: las guardamos en memoria por unas horas y no las compartimos con nadie.</p>
     <p>El uso y la transferencia que hace ZeniPlatform de la información recibida de las API de Google cumple con la <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Política de Datos de Usuario de los Servicios de API de Google</a>, incluidos los requisitos de Uso Limitado.</p>
 
+    <h3>El bot de Discord de Zeni</h3>
+    <p>El bot es opcional y solo funciona con tu Discord vinculado a Zeni. Cuando escribes <code>/zeni unirme</code> en un servidor, aceptas que los miembros de ese servidor vean, en ese servidor:</p>
+    <ul>
+      <li>Tu nombre visible de Zeni y tu rango de League of Legends (en <code>/zeni rango</code> y <code>/zeni ranking</code>).</li>
+      <li>Un resumen diario con tus victorias y derrotas en ranked de ese día (LoL y lo que anotas de Valorant).</li>
+      <li>Un aviso cuando activas tu stop-loss, <b>solo</b> si activaste "Avisar en mis servidores cuando active el stop-loss" en los Ajustes de la app.</li>
+    </ul>
+    <p>Puedes dejar de compartir en cualquier momento con <code>/zeni salir</code> en cada servidor o desactivando el aviso en Ajustes. Lo que el bot ya publicó queda en Discord bajo las reglas de ese servidor y la <a href="https://discord.com/privacy" target="_blank" rel="noopener">Política de Privacidad de Discord</a>.</p>
+
     <h3>Tu rango de League of Legends</h3>
-    <p>Para mostrar tu rango y tus partidas de hoy, nuestro servidor consulta la API oficial de Riot Games con tu Riot ID y servidor. La respuesta se envía a tu app y no la guardamos en el servidor.</p>
+    <p>Para mostrar tu rango y tus partidas de hoy, nuestro servidor consulta la API oficial de Riot Games con tu Riot ID y servidor. La respuesta se envía a tu app (o al servidor de Discord donde se pidió con el bot) y no la guardamos en la base de datos; solo queda en memoria unos minutos para no repetir consultas.</p>
 
     <h3>Datos técnicos</h3>
     <p>Como cualquier servicio en internet, nuestro servidor recibe tu dirección IP. La usamos solo para limitar abusos (por ejemplo, demasiados intentos de inicio de sesión) y no la guardamos en la base de datos. Nuestro proveedor de servidores puede conservar registros técnicos por un tiempo limitado.</p>
@@ -79,7 +99,7 @@
     <ul>
       <li>No vendemos ni alquilamos tus datos.</li>
       <li>No mostramos publicidad ni usamos tus datos para perfiles publicitarios.</li>
-      <li>No leemos tus archivos, partidas ni la memoria de tus juegos.</li>
+      <li>No leemos tus archivos, partidas ni la memoria de tus juegos. Para el tiempo jugado solo vemos qué juegos de tu biblioteca están abiertos.</li>
       <li>Este sitio web no usa cookies de seguimiento.</li>
     </ul>
 
@@ -89,7 +109,7 @@
       <li><b>Railway</b> (Estados Unidos): aloja nuestro servidor y base de datos.</li>
       <li><b>Vercel:</b> aloja este sitio web.</li>
       <li><b>GitHub:</b> aloja los instaladores y las actualizaciones.</li>
-      <li><b>Discord:</b> recibimos ahí los comentarios que nos envías, en un canal privado del equipo.</li>
+      <li><b>Discord:</b> recibimos ahí los comentarios que nos envías, en un canal privado del equipo. Si usas el bot, publica en los servidores donde te uniste lo descrito arriba.</li>
       <li><b>Riot Games, Twitch, Kick, Discord y Google (YouTube):</b> solo cuando usas la función relacionada (rango, "En vivo" o vincular cuentas), y solo lo necesario para esa función.</li>
     </ul>
     <p>Si activas "Mostrar mi actividad en Discord", Zeni comparte con la app de Discord de tu PC lo que estás haciendo en Zeni (por ejemplo, qué juego estás eligiendo). Lo puedes desactivar en Ajustes.</p>
@@ -99,16 +119,18 @@
       <li>Los datos de tu cuenta, mientras la tengas.</li>
       <li>Las sesiones vencen a los 30 días o al cerrar sesión.</li>
       <li>Las cuentas vinculadas, hasta que las desvincules o borres tu cuenta.</li>
+      <li>Las pausas Zen, misiones reclamadas e invitaciones, mientras tengas la cuenta.</li>
+      <li>Tu participación en un servidor de Discord, hasta que uses <code>/zeni salir</code> o borres tu cuenta.</li>
       <li>Los comentarios, mientras sean útiles para mejorar Zeni.</li>
     </ul>
 
     <h2>7. Tus derechos</h2>
-    <p><b>Puedes borrar tu cuenta tú mismo</b> en cualquier momento desde la app: abre tu perfil y toca <b>Eliminar mi cuenta</b>. Se borran al instante tu cuenta, tus datos sincronizados, tus cuentas vinculadas (anulando el acceso de Zeni en cada plataforma), tus canales de Kick y los comentarios que enviaste.</p>
+    <p><b>Puedes borrar tu cuenta tú mismo</b> en cualquier momento desde la app: abre tu perfil y toca <b>Eliminar mi cuenta</b>. Se borran al instante tu cuenta, tus datos sincronizados, tus cuentas vinculadas (anulando el acceso de Zeni en cada plataforma), tus canales de Kick, tus pausas Zen, tus misiones reclamadas, tus invitaciones, tu participación en servidores de Discord y los comentarios que enviaste. Lo que se guarda solo en tu PC (tiempo jugado, juegos, ajustes) no lo recibimos: lo borras al desinstalar Zeni marcando la opción de eliminar los datos de la aplicación.</p>
     <p>También puedes pedirnos en cualquier momento <b>acceder</b> a tus datos, <b>corregirlos</b> o <b>eliminarlos</b>. Escríbenos a <a href="mailto:contacto@zeni-platform.cl">contacto@zeni-platform.cl</a> desde el correo de tu cuenta y responderemos dentro de 15 días hábiles. También puedes desvincular tus cuentas y cerrar sesión directamente en la app.</p>
     <p>Tratamos tus datos conforme a la ley chilena de protección de datos personales.</p>
 
     <h2>8. Seguridad</h2>
-    <p>Toda la comunicación viaja cifrada (HTTPS). Las contraseñas y sesiones se guardan como resúmenes irreversibles, los accesos de Twitch van cifrados y las actualizaciones de la app van firmadas, para que solo se instalen versiones oficiales de Zeni. Ningún sistema es 100 % seguro, pero hacemos lo razonable para proteger tus datos y te avisaremos si ocurre un problema que te afecte.</p>
+    <p>Toda la comunicación viaja cifrada (HTTPS). Las contraseñas y sesiones se guardan como resúmenes irreversibles, los accesos de Twitch y YouTube van cifrados, los mensajes del bot de Discord se verifican con la firma de Discord y las actualizaciones de la app van firmadas, para que solo se instalen versiones oficiales de Zeni. Ningún sistema es 100 % seguro, pero hacemos lo razonable para proteger tus datos y te avisaremos si ocurre un problema que te afecte.</p>
 
     <h2>9. Menores de edad</h2>
     <p>Zeni está pensado para personas de 13 años o más, la misma edad mínima que piden Riot Games, Twitch y Discord. Si eres menor de edad, usa Zeni con el permiso de tu madre, padre o tutor.</p>
