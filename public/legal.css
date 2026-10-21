@@ -28,5 +28,3 @@ table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .93re
 th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
 th { font-family: var(--display); font-weight: 600; color: var(--ink-dim); }
 .table-scroll { overflow-x: auto; }
-footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--ink-dim); font-size: .85rem; }
-footer a { color: var(--ink-dim); margin-right: 16px; }
