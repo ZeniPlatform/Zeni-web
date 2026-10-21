@@ -322,7 +322,7 @@
     document.querySelectorAll("[data-download]").forEach((a) => (a.href = DOWNLOAD));
 
     // Versión publicada (el servidor de Zeni la conoce). Si no responde, el texto queda genérico.
-    fetch("https://zeni-api-production.up.railway.app/v1/app/version")
+    fetch("https://api.zeni-platform.cl/v1/app/version")
       .then((r) => (r.ok ? r.json() : null))
       .then((v) => { if (v && /^\d+\.\d+\.\d+$/.test(v.latest)) document.getElementById("version-note").textContent = `Versión ${v.latest} · ~3 MB`; })
       .catch(() => {});
