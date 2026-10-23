@@ -20,8 +20,10 @@
     if (!iso) return "";
     var min = Math.max(1, Math.round((Date.now() - Date.parse(iso)) / 60000));
     if (min < 60) return "hace " + min + " min";
-    var h = Math.round(min / 60);
-    return h < 48 ? "hace " + h + " h" : "hace " + Math.round(h / 24) + " días";
+    var h = Math.floor(min / 60);
+    if (h < 24) return "hace " + h + " h";
+    var d = new Date(iso);
+    return "desde el " + d.getDate() + " de " + d.toLocaleDateString("es-CL", { month: "short" }).replace(".", "");
   }
   function el(tag, cls, text) {
     var e = document.createElement(tag);
