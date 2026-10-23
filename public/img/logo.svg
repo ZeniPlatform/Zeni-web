@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="1024" height="1024">
   <!-- Logo ZeniPlatform: moneda zeni (銭) con inscripción en el borde.
+       Cada letra y cada punto va en su ángulo exacto sobre el mismo radio (r = 35).
        Fuentes: Chakra Petch 700 (latín) y Shippori Mincho B1 800 (銭), de Google Fonts. -->
   <defs>
     <linearGradient id="zp-coin" x1="0" y1="0" x2="1" y2="1">
@@ -11,7 +12,6 @@
       <rect width="100" height="100" fill="#fff"/>
       <rect x="39" y="39" width="22" height="22" rx="2" fill="#000"/>
     </mask>
-    <path id="zp-ring" d="M50 15 A35 35 0 1 1 49.99 15"/>
   </defs>
   <g mask="url(#zp-hole)">
     <circle cx="50" cy="50" r="46" fill="url(#zp-coin)"/>
@@ -19,7 +19,22 @@
     <circle cx="50" cy="50" r="28" fill="none" stroke="#10242a" stroke-opacity=".4" stroke-width="1.5"/>
     <rect x="35" y="35" width="30" height="30" rx="3" fill="none" stroke="#10242a" stroke-opacity=".35" stroke-width="2"/>
   </g>
-  <text font-family="Chakra Petch, Shippori Mincho B1, sans-serif" font-weight="700" font-size="9" fill="#10242a" dominant-baseline="central">
-    <textPath href="#zp-ring" textLength="214" lengthAdjust="spacing">ZENI · 銭 · ZENI · 銭 ·</textPath>
-  </text>
+  <g font-family="Chakra Petch, Shippori Mincho B1, sans-serif" font-weight="700" font-size="9" fill="#10242a" text-anchor="middle" dominant-baseline="central">
+    <text x="39.62" y="16.57" transform="rotate(-17.25 39.62 16.57)">Z</text>
+    <text x="46.49" y="15.18" transform="rotate(-5.75 46.49 15.18)">E</text>
+    <text x="53.51" y="15.18" transform="rotate(5.75 53.51 15.18)">N</text>
+    <text x="60.38" y="16.57" transform="rotate(17.25 60.38 16.57)">I</text>
+    <text x="39.62" y="83.43" transform="rotate(17.25 39.62 83.43)">Z</text>
+    <text x="46.49" y="84.82" transform="rotate(5.75 46.49 84.82)">E</text>
+    <text x="53.51" y="84.82" transform="rotate(-5.75 53.51 84.82)">N</text>
+    <text x="60.38" y="83.43" transform="rotate(-17.25 60.38 83.43)">I</text>
+    <text x="85" y="50" transform="rotate(90 85 50)">銭</text>
+    <text x="15" y="50" transform="rotate(270 15 50)">銭</text>
+  </g>
+  <g fill="#10242a">
+    <circle cx="74.75" cy="74.75" r="1.4"/>
+    <circle cx="25.25" cy="74.75" r="1.4"/>
+    <circle cx="25.25" cy="25.25" r="1.4"/>
+    <circle cx="74.75" cy="25.25" r="1.4"/>
+  </g>
 </svg>
