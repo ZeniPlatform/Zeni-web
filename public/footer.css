@@ -40,14 +40,41 @@
 }
 .f-bottom .flag { width: 18px; height: 12px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
 
-/* Avisos del equipo (los mismos del botón "!" de la app), debajo del menú */
-.zn-bar { display: grid; gap: 8px; width: min(1160px, 100% - 32px); margin: 14px auto 0; }
-.zn-notice { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px 12px 16px; border-radius: 14px; border: 1px solid #1f3a34; border-left: 4px solid #3fd1a8; background: #0f2420; color: #e8f3f0; font-family: "Noto Sans", "Segoe UI", system-ui, sans-serif; font-size: .92rem; line-height: 1.5; }
-.zn-warning { border-left-color: #ffb547; background: color-mix(in srgb, #ffb547 8%, #0f2420); }
-.zn-critical { border-left-color: #ff4d5e; background: color-mix(in srgb, #ff4d5e 10%, #0f2420); }
-.zn-icon { flex: none; font-size: 1.1rem; line-height: 1.4; }
-.zn-notice p { flex: 1; margin: 0; color: #9fb8b1; }
-.zn-notice b { color: #fff; }
-.zn-notice a { color: #3fd1a8; }
-.zn-close { flex: none; border: 0; background: none; color: #9fb8b1; font-size: 1rem; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
-.zn-close:hover { color: #fff; background: rgba(255, 255, 255, .08); }
+/* Avisos del equipo (los mismos del botón "!" de la app): botón en el menú con panel */
+.zn-wrap { position: relative; margin-left: auto; margin-right: 14px; font-family: "Noto Sans", "Segoe UI", system-ui, sans-serif; }
+.nav-links + .zn-wrap { margin-left: 22px; }
+.nav .zn-wrap + .btn { margin-left: 0; }
+.zn-pill { display: inline-flex; align-items: center; gap: 8px; max-width: 300px; height: 34px; padding: 0 14px 0 6px; border-radius: 999px; border: 1px solid #1f3a34; background: #0f2420; color: #e8f3f0; font-family: inherit; font-weight: 600; font-size: .85rem; line-height: 1; cursor: pointer; }
+.zn-mark { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border-radius: 50%; background: #3fd1a8; color: #1a0f00; font-weight: 800; }
+.zn-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.zn-label small { color: #9fb8b1; font-weight: 500; }
+.zn-pill.zn-warning { border-color: rgba(255, 181, 71, .6); background: color-mix(in srgb, #ffb547 12%, #0f2420); --zn: #ffb547; }
+.zn-pill.zn-warning .zn-mark { background: #ffb547; }
+.zn-pill.zn-critical { border-color: rgba(255, 77, 94, .6); background: color-mix(in srgb, #ff4d5e 14%, #0f2420); --zn: #ff4d5e; }
+.zn-pill.zn-critical .zn-mark { background: #ff4d5e; color: #fff; }
+.zn-pill.zn-info { --zn: #3fd1a8; }
+.zn-pill.zn-new { animation: zn-pulse 2.4s ease-in-out infinite; }
+@keyframes zn-pulse { 0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--zn) 55%, transparent); } 50% { box-shadow: 0 0 0 7px transparent; } }
+.zn-pop { position: absolute; right: 0; top: calc(100% + 10px); z-index: 50; width: min(380px, calc(100vw - 32px)); padding: 14px; border-radius: 14px; border: 1px solid #1f3a34; background: #0f2420; box-shadow: 0 24px 60px -18px #000; display: grid; gap: 8px; }
+.zn-pop[hidden] { display: none; }
+.zn-pop h3 { margin: 0 0 2px; font-family: "Chakra Petch", sans-serif; font-size: 1rem; color: #e8f3f0; }
+.zn-item { display: flex; gap: 10px; padding: 10px 12px; border-radius: 10px; background: #0b1d19; border-left: 3px solid #3fd1a8; text-align: left; }
+.zn-item.zn-warning { border-left-color: #ffb547; }
+.zn-item.zn-critical { border-left-color: #ff4d5e; }
+.zn-icon { font-size: 1.05rem; line-height: 1.4; }
+.zn-item b { display: block; color: #fff; font-size: .9rem; }
+.zn-item p { margin: 3px 0 4px; color: #9fb8b1; font-size: .84rem; line-height: 1.45; }
+.zn-item small { color: #9fb8b1; font-size: .74rem; }
+.zn-item a { color: #3fd1a8; }
+@media (max-width: 860px) { .nav-links + .zn-wrap { margin-left: auto; } }
+@media (max-width: 600px) {
+  .zn-label { display: none; }
+  .zn-pill { padding: 0 5px; }
+  .zn-wrap { margin-right: 8px; }
+  .nav .zn-wrap + .btn { white-space: nowrap; padding: 8px 12px; }
+  .zn-pop { position: fixed; left: 16px; right: 16px; top: 72px; width: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .zn-pill.zn-new { animation: none; } }
+/* Celulares angostos con aviso: el logo solo, para que quepan el aviso y "Descargar gratis". */
+@media (max-width: 420px) { .nav .wrap:has(.zn-wrap) .brand { font-size: 0; gap: 0; } }
+.nav-links ~ .zn-wrap { margin-right: 0; }
