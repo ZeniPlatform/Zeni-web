@@ -39,3 +39,15 @@
   .f-top { grid-template-columns: 1fr; }
 }
 .f-bottom .flag { width: 18px; height: 12px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,255,255,.12); }
+
+/* Avisos del equipo (los mismos del botón "!" de la app), debajo del menú */
+.zn-bar { display: grid; gap: 8px; width: min(1160px, 100% - 32px); margin: 14px auto 0; }
+.zn-notice { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px 12px 16px; border-radius: 14px; border: 1px solid #1f3a34; border-left: 4px solid #3fd1a8; background: #0f2420; color: #e8f3f0; font-family: "Noto Sans", "Segoe UI", system-ui, sans-serif; font-size: .92rem; line-height: 1.5; }
+.zn-warning { border-left-color: #ffb547; background: color-mix(in srgb, #ffb547 8%, #0f2420); }
+.zn-critical { border-left-color: #ff4d5e; background: color-mix(in srgb, #ff4d5e 10%, #0f2420); }
+.zn-icon { flex: none; font-size: 1.1rem; line-height: 1.4; }
+.zn-notice p { flex: 1; margin: 0; color: #9fb8b1; }
+.zn-notice b { color: #fff; }
+.zn-notice a { color: #3fd1a8; }
+.zn-close { flex: none; border: 0; background: none; color: #9fb8b1; font-size: 1rem; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
+.zn-close:hover { color: #fff; background: rgba(255, 255, 255, .08); }
