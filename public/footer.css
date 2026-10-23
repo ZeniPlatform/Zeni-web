@@ -85,3 +85,5 @@
 .zn-pill:active { transform: scale(.97); }
 @keyframes zn-nudge { 0%, 100% { transform: none; } 25% { transform: rotate(-14deg) scale(1.12); } 60% { transform: rotate(10deg) scale(1.12); } }
 @media (prefers-reduced-motion: reduce) { .zn-pill, .zn-pill:hover { transform: none; } .zn-pill:hover .zn-mark { animation: none; } }
+.f-col .ig-link { display: inline-flex; align-items: center; gap: 8px; }
+.f-col .ig-link svg { width: 16px; height: 16px; color: #e1306c; }
