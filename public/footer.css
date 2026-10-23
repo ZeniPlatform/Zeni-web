@@ -78,3 +78,10 @@
 /* Celulares angostos con aviso: el logo solo, para que quepan el aviso y "Descargar gratis". */
 @media (max-width: 420px) { .nav .wrap:has(.zn-wrap) .brand { font-size: 0; gap: 0; } }
 .nav-links ~ .zn-wrap { margin-right: 0; }
+/* Al pasar el mouse: sube un poco, se ilumina con su color y el "!" se balancea una vez. */
+.zn-pill { transition: transform .2s cubic-bezier(.22, 1, .36, 1), box-shadow .2s, border-color .2s, filter .2s; }
+.zn-pill:hover { transform: translateY(-2px); border-color: var(--zn); box-shadow: 0 8px 22px -10px var(--zn); filter: brightness(1.08); }
+.zn-pill:hover .zn-mark { animation: zn-nudge .55s cubic-bezier(.22, 1, .36, 1); }
+.zn-pill:active { transform: scale(.97); }
+@keyframes zn-nudge { 0%, 100% { transform: none; } 25% { transform: rotate(-14deg) scale(1.12); } 60% { transform: rotate(10deg) scale(1.12); } }
+@media (prefers-reduced-motion: reduce) { .zn-pill, .zn-pill:hover { transform: none; } .zn-pill:hover .zn-mark { animation: none; } }
