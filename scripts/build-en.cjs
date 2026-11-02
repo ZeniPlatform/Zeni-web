@@ -1,0 +1,515 @@
+// Genera las páginas en inglés (public/en/) a partir de las páginas en español.
+// Uso: node scripts/build-en.cjs
+// Si cambias un texto en español, este script falla y dice cuál: agrega ahí su traducción.
+const fs = require("fs");
+const path = require("path");
+
+const PUB = path.join(__dirname, "..", "public");
+const BASE = "https://www.zeni-platform.cl";
+const DL = "https://github.com/ZeniPlatform/Zeni-releases/releases/latest/download/ZeniPlatform-setup.exe";
+
+const LINKS = {
+  "/": "/en/",
+  "/registro": "/en/signup",
+  "/terminos": "/en/terms",
+  "/privacidad": "/en/privacy",
+  "/guias/como-no-tiltear-en-lol": "/en/guides/how-not-to-tilt-in-lol",
+};
+
+// Textos compartidos (menú y pie). No todas las páginas los tienen.
+const COMMON = [
+  [`← Volver al inicio`, `← Back to home`],
+  [`El launcher para jugadores competitivos que te frena antes de tiltear. Gratis para Windows.`, `The launcher for competitive players that stops you before you tilt. Free for Windows.`],
+  [`            Descargar gratis\n          </a>`, `            Download for free\n          </a>`],
+  [`aria-label="Producto"`, `aria-label="Product"`],
+  [`<h4>Producto</h4>`, `<h4>Product</h4>`],
+  [`>Funciones</a></li>`, `>Features</a></li>`],
+  [`>Preguntas frecuentes</a></li>`, `>FAQ</a></li>`],
+  [`>Crear cuenta</a></li>`, `>Create account</a></li>`],
+  [`>Guía: cómo no tiltear en LoL</a></li>`, `>Guide: how not to tilt in LoL</a></li>`],
+  [`>Novedades</a></li>`, `>What's new</a></li>`],
+  [`aria-label="Comunidad"`, `aria-label="Community"`],
+  [`<h4>Comunidad</h4>`, `<h4>Community</h4>`],
+  [` Síguenos en Instagram</a>`, ` Follow us on Instagram</a>`],
+  [` Apóyanos en Ko-fi</a></li>`, ` Support us on Ko-fi</a></li>`],
+  [`>Términos del Servicio</a></li>`, `>Terms of Service</a></li>`],
+  [`>Política de Privacidad</a></li>`, `>Privacy Policy</a></li>`],
+  [`© 2026 ZeniPlatform. Todos los derechos reservados.`, `© 2026 ZeniPlatform. All rights reserved.`],
+  [`Hecho en Chile <svg`, `Made in Chile <svg`],
+  [` para jugadores de LoL y Valorant</span>`, ` for LoL and Valorant players</span>`],
+  [` para todo tipo de jugador</span>`, ` for every kind of player</span>`],
+  [`Steam, Epic Games, Xbox, Twitch, Kick, Discord y las demás marcas pertenecen a sus respectivos dueños; ZeniPlatform no está afiliado a ninguno de ellos.`, `Steam, Epic Games, Xbox, Twitch, Kick, Discord and all other trademarks belong to their respective owners; ZeniPlatform is not affiliated with any of them.`],
+];
+
+const FREE_NOTE = `The Zeni app is currently available in Spanish only.`;
+
+const jsonLdIndex = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "ZeniPlatform",
+    alternateName: "Zeni",
+    description: "Free game launcher for Windows that brings together your Steam, Epic, Riot and Xbox games, tracks your playtime, gives you daily, weekly, monthly and yearly missions with XP, and creates a weekly recap to share. For ranked: League of Legends rank and LP, stop-loss, Zen Mode, LoLalytics matchups and a Discord bot.",
+    applicationCategory: "GameApplication",
+    operatingSystem: "Windows 10, Windows 11",
+    url: `${BASE}/en/`,
+    downloadUrl: DL,
+    image: `${BASE}/img/og.png`,
+    screenshot: ["s1-library", "s6-missions", "s7-wrapped", "s3-guard", "s5-live"].map((s) => `${BASE}/img/${s}.webp`),
+    inLanguage: "en",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    publisher: { "@type": "Organization", name: "ZeniPlatform", url: `${BASE}/en/`, logo: `${BASE}/img/icon-192.png`, sameAs: ["https://www.instagram.com/zeni_platform/"] },
+  },
+];
+
+const PAGES = [
+  {
+    src: "index.html",
+    out: "en/index.html",
+    url: "/en/",
+    es: "/",
+    jsonLd: jsonLdIndex,
+    pairs: [
+      [`<title>Launcher gratis para LoL y Valorant con stop-loss | ZeniPlatform</title>`, `<title>Free LoL and Valorant launcher with stop-loss | ZeniPlatform</title>`],
+      [`content="Launcher gratis para Windows: todos tus juegos de Steam, Epic, Riot y Xbox en una biblioteca, tiempo jugado real, misiones con XP y resumen semanal. Para ranked: rango y LP de LoL, stop-loss contra el tilt y bot de Discord."`, `content="Free launcher for Windows: all your Steam, Epic, Riot and Xbox games in one library, real playtime, missions with XP and a weekly recap. For ranked: LoL rank and LP, a stop-loss against tilt and a Discord bot."`],
+      [`ZeniPlatform · El launcher que te frena antes de tiltear`, `ZeniPlatform · The launcher that stops you before you tilt`],
+      [`Gratis para Windows. Tu biblioteca de juegos con tiempo jugado, misiones y resumen semanal. Rango y LP en vivo, stop-loss y bot de Discord.`, `Free for Windows. Your game library with playtime, missions and a weekly recap. Live rank and LP, stop-loss and a Discord bot.`],
+      [`aria-label="Secciones"`, `aria-label="Sections"`],
+      [`<a href="#funciones">Funciones</a>\n`, `<a href="#funciones">Features</a>\n`],
+      [`<a href="#preguntas">Preguntas</a>`, `<a href="#preguntas">FAQ</a>`],
+      [`<a href="#apoyar">Apoyar</a>`, `<a href="#apoyar">Support</a>`],
+      [`<a href="/registro">Crear cuenta</a>\n      </nav>`, `<a href="/registro">Create account</a>\n      </nav>`],
+      [`href="#descargar">Descargar gratis</a>\n    </div>`, `href="#descargar">Download for free</a>\n    </div>`],
+      [`<b>Nuevo: Zeni 2.0</b> · Misiones, resumen semanal y bot de Discord`, `<b>New: Zeni 2.0</b> · Missions, weekly recap and a Discord bot`],
+      [`El launcher de LoL y Valorant que te <span class="r">frena</span> antes de tiltear`, `The LoL and Valorant launcher that <span class="r">stops</span> you before you tilt`],
+      [`Todos tus juegos de Steam, Epic, Riot y Xbox en un solo lugar, con el tiempo que juegas de verdad y misiones que te dan XP. Y para ranked: tu rango y LP a la vista, stop-loss y tus streamers en vivo.`, `All your Steam, Epic, Riot and Xbox games in one place, with your real playtime and missions that give you XP. And for ranked: your rank and LP at a glance, a stop-loss and your favorite streamers live.`],
+      [`            Descargar para Windows`, `            Download for Windows`],
+      [`>Ver funciones</a>`, `>See features</a>`],
+      [`Gratis · Windows 10 y 11 · Sin anuncios · Sin cuenta obligatoria`, `Free · Windows 10 and 11 · No ads · No account required<br>${FREE_NOTE}`],
+      [`alt="Biblioteca de ZeniPlatform con League of Legends, Valorant y otros juegos, rango y sesión de hoy"`, `alt="ZeniPlatform library with League of Legends, Valorant and other games, rank and today's session"`],
+      [`        Detecta tus juegos de\n`, `        Finds your games from\n`],
+      [`alt="Biblioteca de ZeniPlatform con todos los juegos de Steam, Epic, Riot y Xbox juntos"`, `alt="ZeniPlatform library with all your Steam, Epic, Riot and Xbox games together"`],
+      [`<span class="tag">Tu biblioteca</span>`, `<span class="tag">Your library</span>`],
+      [`Adiós a buscar juegos <em>en mil carpetas</em>`, `No more digging for games <em>in a thousand folders</em>`],
+      [`Zeni encuentra solo los juegos que tienes instalados en Steam, Epic Games, Riot y Xbox, y los ordena en una biblioteca con portadas. Nada de abrir cuatro launchers distintos ni de tener el escritorio lleno de accesos directos.`, `Zeni automatically finds the games you have installed on Steam, Epic Games, Riot and Xbox, and arranges them in a library with cover art. No more opening four different launchers or filling your desktop with shortcuts.`],
+      [`Detecta tus juegos al instante, sin configurar nada.`, `Detects your games instantly, with nothing to set up.`],
+      [`Busca cualquier juego escribiendo su nombre (atajo <b>/</b>).`, `Search any game by typing its name (shortcut <b>/</b>).`],
+      [`Favoritos, jugados hace poco y ficha de cada juego con capturas.`, `Favorites, recently played and a page for each game with screenshots.`],
+      [`<b>Tiempo jugado real</b>: hoy, esta semana y en total, medido solo mientras el juego está abierto.`, `<b>Real playtime</b>: today, this week and in total, measured only while the game is open.`],
+      [`alt="Limpia tu escritorio: Zeni guarda los accesos directos de juegos y los deja en tu biblioteca"`, `alt="Clean up your desktop: Zeni stores your game shortcuts and adds them to your library"`],
+      [`Limpia tu escritorio <span class="new">Nuevo</span>`, `Clean desktop <span class="new">New</span>`],
+      [`Un escritorio <em>limpio</em> en un clic`, `A <em>clean</em> desktop in one click`],
+      [`Zeni encuentra los accesos directos de juegos que tienes tirados en el escritorio, los suma a tu biblioteca y los guarda en una carpeta. Incluso los de launchers que no detecta solo, como Battle.net o Minecraft.`, `Zeni finds the game shortcuts scattered across your desktop, adds them to your library and stores them in a folder. Even those from launchers it doesn't detect on its own, like Battle.net or Minecraft.`],
+      [`Tú eliges cuáles mover.`, `You choose which ones to move.`],
+      [`Nada se borra: los puedes devolver al escritorio cuando quieras.`, `Nothing gets deleted: you can put them back on your desktop anytime.`],
+      [`alt="Misiones de hoy, de la semana, del mes y del año con su XP"`, `alt="Today's, weekly, monthly and yearly missions with their XP"`],
+      [`Misiones y niveles <span class="new">Nuevo</span>`, `Missions and levels <span class="new">New</span>`],
+      [`Juega lo que te gusta y <em>sube de nivel</em>`, `Play what you love and <em>level up</em>`],
+      [`Misiones diarias, semanales, mensuales y anuales para cualquier juego: juega 1 hora hoy, prueba 2 juegos nuevos este mes, juega 150 días este año. Las largas dan miles de XP.`, `Daily, weekly, monthly and yearly missions for any game: play for 1 hour today, try 2 new games this month, play on 150 days this year. The long ones give thousands of XP.`],
+      [`Todos tienen las mismas misiones cada día: compite con tus amigos.`, `Everyone gets the same missions each day: compete with your friends.`],
+      [`Más de 20 logros, como Centenario (100 horas) o Imparable (100 misiones).`, `More than 20 achievements, for 100 hours played or 100 missions claimed.`],
+      [`Desbloquea avatares, títulos, colores, fondos animados y marcos de fuego, galaxia y arcoíris para tu perfil.`, `Unlock avatars, titles, colors, animated backgrounds and fire, galaxy and rainbow frames for your profile.`],
+      [`alt="Aviso de stop-loss: llevas 2 derrotas seguidas en League of Legends"`, `alt="Stop-loss warning: you have lost 2 League of Legends games in a row"`],
+      [`"Una más y me voy"… <em>ya no.</em>`, `"Just one more"… <em>not anymore.</em>`],
+      [`Zeni cuenta tus partidas de hoy. Si pierdes varias seguidas, te avisa antes de abrir otra ranked y te recomienda un descanso. Tú decides, pero ahora lo piensas dos veces.`, `Zeni counts today's games. If you lose several in a row, it warns you before you open another ranked game and suggests a break. It's still your call, but now you'll think twice.`],
+      [`Stop-loss configurable: tú eliges tras cuántas derrotas.`, `Configurable stop-loss: you choose after how many losses.`],
+      [`Límite diario de ranked.`, `Daily ranked limit.`],
+      [`Funciona con League of Legends y Valorant.`, `Works with League of Legends and Valorant.`],
+      [`<b>Modo Zen</b>: un minuto de respiración guiada para enfriar la cabeza.`, `<b>Zen Mode</b>: one minute of guided breathing to cool your head.`],
+      [`Contador de <b>LP salvado</b> cada vez que paras a tiempo.`, `A <b>saved LP</b> counter for every time you stop in time.`],
+      [`Lee la guía: cómo no tiltear en LoL →`, `Read the guide: how not to tilt in LoL →`],
+      [`alt="Ficha de League of Legends con rango Oro II, 64 LP y partidas de hoy"`, `alt="League of Legends page with Gold II rank, 64 LP and today's games"`],
+      [`<span class="tag">Rango en vivo</span>`, `<span class="tag">Live rank</span>`],
+      [`Tu <em>rango y LP</em> siempre a la vista`, `Your <em>rank and LP</em> always at a glance`],
+      [`Escribe tu Riot ID una vez y Zeni muestra tu rango, tus LP y las partidas de hoy, con campeón y KDA, directamente en la biblioteca.`, `Enter your Riot ID once and Zeni shows your rank, your LP and today's games, with champion and KDA, right in your library.`],
+      [`alt="Barra de LoLalytics dentro de Zeni con 'ahri vs zed mid' escrito en el campo de matchup"`, `alt="LoLalytics bar inside Zeni with 'ahri vs zed mid' typed in the matchup field"`],
+      [`Matchups <span class="new">Nuevo</span>`, `Matchups <span class="new">New</span>`],
+      [`Tu matchup en <em>2 segundos</em>`, `Your matchup in <em>2 seconds</em>`],
+      [`Abre LoLalytics dentro de Zeni, escribe <b>"ahri vs zed mid"</b> en la barra de arriba y aprieta Enter: Zeni te lleva a la página exacta del enfrentamiento, con build, runas y línea. Sin Google, sin pestañas.`, `Open LoLalytics inside Zeni, type <b>"ahri vs zed mid"</b> in the top bar and press Enter: Zeni takes you to the exact matchup page, with build, runes and lane. No Google, no tabs.`],
+      [`Entiende apodos: mf, j4, cait, yi…`, `Understands nicknames: mf, j4, cait, yi…`],
+      [`Con todos los campeones nuevos al día.`, `Always up to date with new champions.`],
+      [`alt="Zeni Wrapped: tarjeta con las horas jugadas de la semana, tus juegos y tus cifras"`, `alt="Zeni Wrapped: a card with your hours played this week, your games and your stats"`],
+      [`Zeni Wrapped <span class="new">Nuevo</span>`, `Zeni Wrapped <span class="new">New</span>`],
+      [`Tu semana de juego <em>en una imagen</em>`, `Your gaming week <em>in one image</em>`],
+      [`Cada lunes, Zeni arma tu resumen: horas jugadas, tus juegos top, tu mejor día, ranked, LP salvado y XP ganada. Cópialo y compártelo en Discord, WhatsApp o tus redes.`, `Every Monday, Zeni puts together your recap: hours played, your top games, your best day, ranked, saved LP and XP earned. Copy it and share it on Discord, WhatsApp or social media.`],
+      [`aria-label="Ejemplo del bot de Zeni en Discord: ranking del servidor y aviso de stop-loss"`, `aria-label="Example of the Zeni bot on Discord: server ranking and stop-loss notice"`],
+      [`<b>Seba</b> usó <b>/zeni ranking</b>`, `<b>Seba</b> used <b>/zeni ranking</b>`],
+      [`hoy a las 21:14`, `today at 9:14 PM`],
+      [`🏆 Ranking de LoL (Solo/Dúo)`, `🏆 LoL ranking (Solo/Duo)`],
+      [`Cami — Diamante IV · 32 LP`, `Cami — Diamond IV · 32 LP`],
+      [`Seba — Esmeralda I · 78 LP`, `Seba — Emerald I · 78 LP`],
+      [`Nico — Platino II · 15 LP`, `Nico — Platinum II · 15 LP`],
+      [`Vale — Oro I · 90 LP`, `Vale — Gold I · 90 LP`],
+      [`Únete con /zeni unirme · Zeni`, `Join with /zeni unirme · Zeni`],
+      [`hoy a las 22:41`, `today at 10:41 PM`],
+      [`</b> activó su stop-loss en League of Legends después de 2 derrotas seguidas. Descanso merecido: mañana se vuelve con la cabeza fría. 💚`, `</b> hit their stop-loss in League of Legends after 2 losses in a row. A well-earned break: back tomorrow with a cool head. 💚`],
+      [`Bot de Discord <span class="new">Nuevo</span>`, `Discord bot <span class="new">New</span>`],
+      [`Zeni llega a <em>tu servidor</em>`, `Zeni comes to <em>your server</em>`],
+      [`Agrega el bot de Zeni a tu servidor de Discord y comparte el grind con tu grupo.`, `Add the Zeni bot to your Discord server and share the grind with your group.`],
+      [`<b>/zeni rango</b>: tu rango y LP, o el de un amigo.`, `<b>/zeni rango</b>: your rank and LP, or a friend's.`],
+      [`<b>/zeni ranking</b>: la tabla del servidor. ¿Quién va primero?`, `<b>/zeni ranking</b>: the server leaderboard. Who's in first?`],
+      [`Resumen de las ranked del día, todas las noches.`, `A recap of the day's ranked games, every night.`],
+      [`Aviso cuando alguien para a tiempo con el stop-loss (si lo activa).`, `A notice when someone stops in time with their stop-loss (if they turn it on).`],
+      [`alt="Sección En vivo con streams de Twitch y Kick"`, `alt="Live section with Twitch and Kick streams"`],
+      [`<span class="tag">En vivo</span>`, `<span class="tag">Live</span>`],
+      [`<span class="t">Twitch</span> y <span class="k">Kick</span> sin abrir el navegador`, `<span class="t">Twitch</span> and <span class="k">Kick</span> without opening a browser`],
+      [`Vincula tus cuentas y mira qué streamers que sigues están en vivo. Tócalos y el stream se abre dentro de Zeni, junto a OP.GG, U.GG, LoLalytics y Tracker.gg.`, `Link your accounts and see which streamers you follow are live. Click one and the stream opens inside Zeni, alongside OP.GG, U.GG, LoLalytics and Tracker.gg.`],
+      [`Todo lo que necesitas, <em>nada que estorbe</em>`, `Everything you need, <em>nothing in the way</em>`],
+      [`Ligero, rápido y pensado para jugadores competitivos.`, `Light, fast and built for competitive players.`],
+      [`<h3>Una sola biblioteca</h3><p>Steam, Epic, Riot y Xbox juntos, con portadas y ficha de cada juego.</p>`, `<h3>One library</h3><p>Steam, Epic, Riot and Xbox together, with cover art and a page for each game.</p>`],
+      [`<h3>Tu Zeni en cualquier PC</h3><p>Inicia sesión y tus ajustes, favoritos e historial de ranked se sincronizan solos.</p>`, `<h3>Your Zeni on any PC</h3><p>Sign in and your settings, favorites and ranked history sync automatically.</p>`],
+      [`<h3>Se actualiza solo</h3><p>Versiones nuevas con un clic, firmadas para que solo se instale Zeni oficial.</p>`, `<h3>Updates itself</h3><p>New versions in one click, signed so that only official Zeni gets installed.</p>`],
+      [`<h3>A tu estilo</h3><p>Paletas de color, tema claro u oscuro y colores exclusivos que desbloqueas subiendo de nivel.</p>`, `<h3>Your style</h3><p>Color palettes, light or dark theme and exclusive colors you unlock by leveling up.</p>`],
+      [`<h3>Invita y gana</h3><p>Comparte tu código: cuando un amigo se une, ganas XP y marcos exclusivos para tu perfil.</p>`, `<h3>Invite and earn</h3><p>Share your code: when a friend joins, you earn XP and exclusive frames for your profile.</p>`],
+      [`<h3>Liviano</h3><p>Instalador de ~3 MB y mucho más liviano que tener un navegador abierto.</p>`, `<h3>Lightweight</h3><p>A ~3 MB installer, and much lighter than keeping a browser open.</p>`],
+      [`aria-label="Video de demostración de ZeniPlatform"`, `aria-label="ZeniPlatform demo video"`],
+      [`<span class="tag">En 30 segundos</span>`, `<span class="tag">In 30 seconds</span>`],
+      [`Mira Zeni en acción`, `See Zeni in action`],
+      [`Abre la app, revisa tu rango, mira quién está en vivo y deja que Zeni te cuide el LP.`, `Open the app, check your rank, see who's live and let Zeni look after your LP.`],
+      [`style="margin-top: 10px;">Descargar gratis</a>`, `style="margin-top: 10px;">Download for free</a>`],
+      [`<h2>Preguntas frecuentes</h2>`, `<h2>Frequently asked questions</h2>`],
+      [`<summary>¿Es gratis?</summary><p>Sí, y siempre lo será para jugadores. Sin anuncios y sin vender tus datos.</p>`, `<summary>Is it free?</summary><p>Yes, and it always will be for players. No ads, and we don't sell your data.</p></details>\n          <details class="reveal"><summary>Is the app in English?</summary><p>Not yet: the Zeni app is currently available in Spanish only. This website is available in both languages.</p>`],
+      [`<summary>Windows dice "Windows protegió su PC". ¿Es seguro?</summary><p>Sí. Aparece porque Zeni es una app nueva y todavía no tiene un certificado de firma de Windows (son muy caros para un proyecto independiente). Haz clic en <b>Más información → Ejecutar de todas formas</b>. Las actualizaciones sí van firmadas: Zeni solo instala versiones oficiales.</p>`, `<summary>Windows says "Windows protected your PC". Is it safe?</summary><p>Yes. It appears because Zeni is a new app and doesn't have a Windows signing certificate yet (they are very expensive for an independent project). Click <b>More info → Run anyway</b>. Updates are signed: Zeni only installs official versions.</p>`],
+      [`<summary>¿Necesito crear una cuenta?</summary><p>No. La biblioteca, el stop-loss y el límite de ranked funcionan sin cuenta. La cuenta de Zeni es opcional y sirve para ver tu rango de LoL, sincronizar entre PCs, vincular Twitch, Kick y Discord, y ganar XP con misiones y logros.</p>`, `<summary>Do I need an account?</summary><p>No. The library, the stop-loss and the ranked limit work without one. A Zeni account is optional and lets you see your LoL rank, sync across PCs, link Twitch, Kick and Discord, and earn XP with missions and achievements.</p>`],
+      [`<summary>¿Riot puede banearme por usar Zeni?</summary><p>No. Zeni no toca los archivos del juego ni se mete en las partidas: solo abre el juego y consulta tu rango con la API oficial de Riot, igual que OP.GG.</p>`, `<summary>Can Riot ban me for using Zeni?</summary><p>No. Zeni doesn't touch game files or interfere with your matches: it only opens the game and checks your rank with Riot's official API, just like OP.GG.</p>`],
+      [`<summary>¿Las misiones sirven para cualquier juego?</summary><p>Sí. Las misiones usan lo que Zeni mide en cualquier juego de tu biblioteca: tiempo jugado, días jugados, juegos distintos y juegos nuevos. Si juegas ranked de LoL o Valorant, también aparecen misiones de ranked. Para reclamar la XP necesitas una cuenta de Zeni (gratis).</p>`, `<summary>Do missions work with any game?</summary><p>Yes. Missions use what Zeni measures in any game in your library: playtime, days played, different games and new games. If you play LoL or Valorant ranked, ranked missions show up too. To claim the XP you need a free Zeni account.</p>`],
+      [`<summary>¿Cómo agrego el bot de Discord a mi servidor?</summary><p>En Zeni, abre <b>Ajustes</b> y en la sección Discord toca <b>Agregar el bot a un servidor</b>. Después, cada persona escribe <b>/zeni unirme</b> (con su Discord vinculado en Zeni) y la administración elige el canal del resumen con <b>/zeni canal</b>.</p>`, `<summary>How do I add the Discord bot to my server?</summary><p>In Zeni, open <b>Settings</b> (Ajustes) and, in the Discord section, click <b>Add the bot to a server</b> (Agregar el bot a un servidor). Then each person types <b>/zeni unirme</b> (with their Discord linked in Zeni) and the server admins choose the recap channel with <b>/zeni canal</b>.</p>`],
+      [`<summary>¿Cómo se actualiza?</summary><p>Solo. Cuando sale una versión nueva, Zeni te avisa y se instala con un clic, sin perder tus datos.</p>`, `<summary>How does it update?</summary><p>By itself. When a new version comes out, Zeni lets you know and installs it in one click, without losing your data.</p>`],
+      [`<summary>Encontré un error o tengo una idea</summary><p>¡Cuéntanos! Dentro de Zeni, en la barra lateral, toca <b>Enviar comentarios</b>. Leemos todos los mensajes.</p>`, `<summary>I found a bug or have an idea</summary><p>Tell us! Inside Zeni, in the sidebar, click <b>Send feedback</b> (Enviar comentarios). We read every message.</p>`],
+      [`Descarga <em>ZeniPlatform</em>`, `Download <em>ZeniPlatform</em>`],
+      [`Gratis para Windows 10 y 11. Se instala en segundos y se actualiza solo.`, `Free for Windows 10 and 11. Installs in seconds and updates itself.`],
+      [`id="version-note">Última versión<`, `id="version-note">Latest version<`],
+      [`¿Zeni te salvó el LP?`, `Did Zeni save your LP?`],
+      [`Zeni es gratis y lo hacemos en nuestro tiempo libre. Si te gusta, un café ayuda a mantener el servidor y a sumar funciones nuevas.`, `Zeni is free and we build it in our spare time. If you like it, a coffee helps keep the server running and adds new features.`],
+      [`rel="noopener">Apóyanos en Ko-fi</a>\n        </div>`, `rel="noopener">Support us on Ko-fi</a>\n        </div>`],
+      ["`Versión ${v.latest} · ~3 MB`", "`Version ${v.latest} · ~3 MB`"],
+    ],
+  },
+  {
+    src: "registro.html",
+    out: "en/signup.html",
+    url: "/en/signup",
+    es: "/registro",
+    pairs: [
+      [`<title>Crea tu cuenta · ZeniPlatform</title>`, `<title>Create your account · ZeniPlatform</title>`],
+      [`content="Crea tu cuenta gratis de ZeniPlatform: misiones con XP, recompensas y tu progreso en cualquier PC. Si un amigo te invitó, usa su código."`, `content="Create your free ZeniPlatform account: missions with XP, rewards and your progress on any PC. If a friend invited you, use their code."`],
+      [`content="Te invitaron a ZeniPlatform"`, `content="You've been invited to ZeniPlatform"`],
+      [`content="Crea tu cuenta gratis y empieza a ganar XP jugando."`, `content="Create your free account and start earning XP by playing."`],
+      [`<b id="inviter">Un amigo</b> te invitó a Zeni. Crea tu cuenta con su código y los dos ganan XP.`, `<b id="inviter">A friend</b> invited you to Zeni. Create your account with their code and you both earn XP.`],
+      [`<h1>Crea tu cuenta de Zeni</h1>`, `<h1>Create your Zeni account</h1>`],
+      [`Gratis. Con tu cuenta, tu progreso te sigue a cualquier PC.`, `It's free. With an account, your progress follows you to any PC.<br><small>${FREE_NOTE}</small>`],
+      [`Misiones con XP para cualquier juego`, `Missions with XP for any game`],
+      [`Avatares, marcos y títulos para desbloquear`, `Avatars, frames and titles to unlock`],
+      [`Tus ajustes y favoritos en cualquier PC`, `Your settings and favorites on any PC`],
+      [`Tu rango de LoL al día, y Twitch, Kick y Discord vinculados`, `Your LoL rank up to date, with Twitch, Kick and Discord linked`],
+      [`<h2>Tus datos</h2>`, `<h2>Your details</h2>`],
+      [`<label>Nombre visible\n`, `<label>Display name\n`],
+      [`<label>Correo\n`, `<label>Email\n`],
+      [`<label>Contraseña\n`, `<label>Password\n`],
+      [`Mínimo 8 caracteres.`, `At least 8 characters.`],
+      [`Código de invitación <span class="hint">(opcional)</span>`, `Invite code <span class="hint">(optional)</span>`],
+      [`Sitio web <input`, `Website <input`],
+      [`<span>Acepto los <a href="/terminos" target="_blank">Términos del Servicio</a> y la <a href="/privacidad" target="_blank">Política de Privacidad</a>.</span>`, `<span>I accept the <a href="/terminos" target="_blank">Terms of Service</a> and the <a href="/privacidad" target="_blank">Privacy Policy</a>.</span>`],
+      [`id="submit">Crear cuenta gratis</button>`, `id="submit">Create free account</button>`],
+      [`¡Tu cuenta está lista, <span id="done-name"></span>!`, `Your account is ready, <span id="done-name"></span>!`],
+      [`<li>Descarga Zeni e instálalo.</li>`, `<li>Download Zeni and install it.</li>`],
+      [`<li>Abre tu perfil en la barra lateral e inicia sesión con tu correo y contraseña.</li>`, `<li>Open your profile in the sidebar and sign in with your email and password.</li>`],
+      [`<li>¡A ganar XP!</li>`, `<li>Start earning XP!</li>`],
+      [`>Descargar para Windows</a>`, `>Download for Windows</a>`],
+      [`showError("Tu nombre visible debe tener al menos 2 caracteres.")`, `showError("Your display name must be at least 2 characters.")`],
+      [`showError("Revisa tu correo.")`, `showError("Please check your email address.")`],
+      [`showError("La contraseña debe tener al menos 8 caracteres.")`, `showError("Your password must be at least 8 characters.")`],
+      [`showError("Acepta los Términos y la Política de Privacidad para crear tu cuenta.")`, `showError("Please accept the Terms and the Privacy Policy to create your account.")`],
+      [`btn.textContent = "Creando tu cuenta…";`, `btn.textContent = "Creating your account…";`],
+      // Los errores del servidor vienen en español: aquí se traducen por su código.
+      [`if (!res.ok) throw new Error((res.d && res.d.error && res.d.error.message) || "No se pudo crear la cuenta. Inténtalo de nuevo.");`, `if (!res.ok) throw new Error(({ email_taken: "An account with that email already exists.", invalid_referral: "That invite code doesn't exist. Check it or leave it blank.", too_many_attempts: "Too many attempts from this connection. Please try again later." })[res.d && res.d.error && res.d.error.code] || "We couldn't create your account. Please check your details and try again.");`],
+      [`"No pudimos conectar con Zeni. Revisa tu internet e inténtalo de nuevo."`, `"We couldn't reach Zeni. Check your connection and try again."`],
+      [`btn.textContent = "Crear cuenta gratis";`, `btn.textContent = "Create free account";`],
+    ],
+  },
+  {
+    src: "terminos.html",
+    out: "en/terms.html",
+    url: "/en/terms",
+    es: "/terminos",
+    pairs: [
+      [`<title>Términos del Servicio · ZeniPlatform</title>`, `<title>Terms of Service · ZeniPlatform</title>`],
+      [`content="Condiciones de uso de ZeniPlatform, su cuenta y su sitio web."`, `content="Terms of use for ZeniPlatform, its account and its website."`],
+      [`<h1>Términos del Servicio</h1>`, `<h1>Terms of Service</h1>`],
+      [`Última actualización: 21 de octubre de 2026 · Misiones, recompensas y bot de Discord</p>`, `Last updated: October 21, 2026 · Missions, rewards and Discord bot</p>\n    <p class="updated">This is a courtesy translation. If there is any conflict, the <a href="/terminos" hreflang="es">Spanish version</a> prevails.</p>`],
+      [`<b>En corto:</b> Zeni es gratis para uso personal. Úsalo con buena onda: no lo copies, no lo revendas y no abuses del servicio. Lo entregamos tal como está y hacemos lo posible para que funcione bien.`, `<b>In short:</b> Zeni is free for personal use. Be cool about it: don't copy it, don't resell it and don't abuse the service. We provide it as is and do our best to make it work well.`],
+      [`<h2>1. Aceptación</h2>`, `<h2>1. Acceptance</h2>`],
+      [`Al descargar, instalar o usar ZeniPlatform ("Zeni"), su cuenta opcional o este sitio web, aceptas estos términos y nuestra <a href="/privacidad">Política de Privacidad</a>. Si no estás de acuerdo, no uses Zeni.`, `By downloading, installing or using ZeniPlatform ("Zeni"), its optional account or this website, you accept these terms and our <a href="/privacidad">Privacy Policy</a>. If you don't agree, don't use Zeni.`],
+      [`<h2>2. El servicio</h2>`, `<h2>2. The service</h2>`],
+      [`Zeni es un launcher para Windows que reúne tus juegos instalados, muestra información de tus partidas competitivas, te ayuda a controlar cuánto juegas ranked y te deja ver streams y sitios de estadísticas. Podemos agregar, cambiar o quitar funciones en cualquier momento.`, `Zeni is a launcher for Windows that brings together your installed games, shows information about your competitive matches, helps you control how much ranked you play and lets you watch streams and stats sites. We may add, change or remove features at any time.`],
+      [`<h2>3. Tu cuenta</h2>`, `<h2>3. Your account</h2>`],
+      [`La cuenta de Zeni es opcional. Si la creas, entrega datos verdaderos y cuida tu contraseña: eres responsable de lo que ocurra con tu cuenta.`, `A Zeni account is optional. If you create one, provide truthful information and protect your password: you are responsible for what happens with your account.`],
+      [`Debes tener al menos 13 años para crear una cuenta.`, `You must be at least 13 years old to create an account.`],
+      [`Puedes dejar de usar Zeni y pedir que borremos tu cuenta cuando quieras.`, `You can stop using Zeni and ask us to delete your account whenever you want.`],
+      [`<h2>4. Uso permitido</h2>`, `<h2>4. Permitted use</h2>`],
+      [`Zeni es gratis para <b>uso personal y no comercial</b>. No está permitido:`, `Zeni is free for <b>personal, non-commercial use</b>. You may not:`],
+      [`Copiar, modificar, descompilar, redistribuir, vender o alquilar Zeni o partes de él.`, `Copy, modify, decompile, redistribute, sell or rent Zeni or any part of it.`],
+      [`Usar Zeni con fines comerciales, por ejemplo en cibercafés o centros de juego, sin una licencia comercial de ZeniPlatform. Si te interesa, escríbenos.`, `Use Zeni for commercial purposes, for example in internet cafes or gaming centers, without a commercial license from ZeniPlatform. If you're interested, write to us.`],
+      [`Intentar acceder sin permiso a nuestros sistemas o a cuentas de otras personas, o interferir con el servicio.`, `Try to access our systems or other people's accounts without permission, or interfere with the service.`],
+      [`Automatizar peticiones a nuestro servidor, enviar spam por "Enviar comentarios" o usar Zeni para algo ilegal.`, `Automate requests to our server, send spam through "Send feedback" or use Zeni for anything illegal.`],
+      [`Hacer trampa en misiones, niveles o invitaciones (por ejemplo, con cuentas falsas o simulando tiempo de juego).`, `Cheat at missions, levels or invites (for example, with fake accounts or by faking playtime).`],
+      [`<b>XP, niveles, misiones y recompensas.</b> Son parte del juego dentro de Zeni: no tienen valor en dinero, no se pueden vender, cambiar ni transferir, y no dan ventajas en ningún juego. Podemos ajustar cuánta XP da cada cosa, las misiones y las recompensas para mantener el equilibrio, y quitar lo obtenido con trampa.`, `<b>XP, levels, missions and rewards.</b> They are part of the game inside Zeni: they have no monetary value, can't be sold, exchanged or transferred, and give no advantage in any game. We may adjust how much XP things give, the missions and the rewards to keep things balanced, and remove anything obtained by cheating.`],
+      [`<h2>5. Servicios de terceros</h2>`, `<h2>5. Third-party services</h2>`],
+      [`Zeni se conecta con servicios de otras empresas (Riot Games, Steam, Epic Games, Xbox, Twitch, Kick, Discord, YouTube y sitios de estadísticas). Su uso se rige por los términos de cada una, y no somos responsables de su funcionamiento ni de su contenido.`, `Zeni connects to services from other companies (Riot Games, Steam, Epic Games, Xbox, Twitch, Kick, Discord, YouTube and stats sites). Their use is governed by each company's terms, and we are not responsible for how they work or for their content.`],
+      [`El bot de Discord de Zeni solo publica en un servidor lo que sus miembros eligen compartir (con <code>/zeni unirme</code>). Cada servidor decide sus reglas y su administración puede quitar el bot cuando quiera.`, `The Zeni Discord bot only posts in a server what its members choose to share (with <code>/zeni unirme</code>). Each server sets its own rules, and its admins can remove the bot whenever they want.`],
+      [`Zeni usa los Servicios de API de YouTube. Al vincular tu cuenta de YouTube aceptas también los <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">Términos del Servicio de YouTube</a> y la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidad de Google</a>.`, `Zeni uses the YouTube API Services. By linking your YouTube account you also accept the <a href="https://www.youtube.com/t/terms" target="_blank" rel="noopener">YouTube Terms of Service</a> and the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a>.`],
+      [`Riot Games, Inc. Las demás marcas pertenecen a sus respectivos dueños; ZeniPlatform no está afiliado a ninguno de ellos.</p>\n\n    <h2>`, `Riot Games, Inc. All other trademarks belong to their respective owners; ZeniPlatform is not affiliated with any of them.</p>\n\n    <h2>`],
+      [`<h2>6. Propiedad intelectual</h2>`, `<h2>6. Intellectual property</h2>`],
+      [`Zeni, su código, su diseño, su logo y su nombre pertenecen a ZeniPlatform. Te damos una licencia personal, gratuita, no exclusiva e intransferible para instalar y usar Zeni según estos términos.`, `Zeni, its code, its design, its logo and its name belong to ZeniPlatform. We grant you a personal, free, non-exclusive and non-transferable license to install and use Zeni under these terms.`],
+      [`<h2>7. Donaciones</h2>`, `<h2>7. Donations</h2>`],
+      [`Las donaciones (por ejemplo, en Ko-fi) son voluntarias, no son reembolsables y no entregan derechos especiales, funciones exclusivas ni acceso prioritario. ¡Igual las agradecemos mucho!`, `Donations (for example, on Ko-fi) are voluntary and non-refundable, and they don't grant special rights, exclusive features or priority access. We're very grateful for them anyway!`],
+      [`<h2>8. Actualizaciones</h2>`, `<h2>8. Updates</h2>`],
+      [`Zeni te avisa cuando hay una versión nueva y la instala cuando aceptas. Las actualizaciones van firmadas para asegurar que provienen de ZeniPlatform. Podemos dejar de dar soporte a versiones antiguas.`, `Zeni lets you know when there's a new version and installs it when you accept. Updates are signed to ensure they come from ZeniPlatform. We may stop supporting old versions.`],
+      [`<h2>9. Sin garantías</h2>`, `<h2>9. No warranties</h2>`],
+      [`Zeni se entrega "tal como está". Hacemos lo posible para que funcione bien, pero no garantizamos que esté libre de errores ni disponible siempre. El stop-loss, el límite diario y la información de rango son ayudas: no garantizan resultados y la decisión de jugar siempre es tuya.`, `Zeni is provided "as is". We do our best to make it work well, but we don't guarantee that it's error-free or always available. The stop-loss, the daily limit and the rank information are aids: they don't guarantee results, and the decision to play is always yours.`],
+      [`<h2>10. Limitación de responsabilidad</h2>`, `<h2>10. Limitation of liability</h2>`],
+      [`En la medida que lo permita la ley, ZeniPlatform no responde por daños indirectos, pérdida de datos, puntos de liga, partidas o cuentas de terceros derivados del uso de Zeni. Nada en estos términos limita los derechos que te da la ley chilena de protección al consumidor.`, `To the extent permitted by law, ZeniPlatform is not liable for indirect damages or for the loss of data, league points, matches or third-party accounts arising from the use of Zeni. Nothing in these terms limits your rights under Chilean consumer protection law.`],
+      [`<h2>11. Suspensión</h2>`, `<h2>11. Suspension</h2>`],
+      [`Podemos suspender o cerrar cuentas que incumplan estos términos o que pongan en riesgo el servicio o a otras personas.`, `We may suspend or close accounts that break these terms or that put the service or other people at risk.`],
+      [`<h2>12. Ley aplicable</h2>`, `<h2>12. Governing law</h2>`],
+      [`Estos términos se rigen por las leyes de Chile.`, `These terms are governed by the laws of Chile.`],
+      [`<h2>13. Cambios y contacto</h2>`, `<h2>13. Changes and contact</h2>`],
+      [`Si cambiamos estos términos, actualizaremos la fecha de arriba y avisaremos los cambios importantes. Para cualquier consulta, escríbenos a `, `If we change these terms, we'll update the date above and announce important changes. For any questions, write to us at `],
+    ],
+  },
+  {
+    src: "privacidad.html",
+    out: "en/privacy.html",
+    url: "/en/privacy",
+    es: "/privacidad",
+    pairs: [
+      [`<title>Política de Privacidad · ZeniPlatform</title>`, `<title>Privacy Policy · ZeniPlatform</title>`],
+      [`content="Qué datos guarda ZeniPlatform, para qué se usan y cómo pedir su eliminación."`, `content="What data ZeniPlatform stores, what it's used for and how to request its deletion."`],
+      [`<h1>Política de Privacidad</h1>`, `<h1>Privacy Policy</h1>`],
+      [`Última actualización: 21 de octubre de 2026 · Versión 2.0: tiempo jugado, pausas Zen, misiones, invitaciones y bot de Discord</p>`, `Last updated: October 21, 2026 · Version 2.0: playtime, Zen breaks, missions, invites and Discord bot</p>\n    <p class="updated">This is a courtesy translation. If there is any conflict, the <a href="/privacidad" hreflang="es">Spanish version</a> prevails.</p>`],
+      [`<b>En corto:</b> Zeni funciona sin cuenta y, sin ella, tus juegos y ajustes nunca salen de tu PC. Si creas una cuenta, guardamos solo lo necesario para sincronizar tus datos y mostrar tu rango y tus streams. No vendemos tus datos, no mostramos publicidad y puedes pedir que borremos todo cuando quieras.`, `<b>In short:</b> Zeni works without an account and, without one, your games and settings never leave your PC. If you create an account, we store only what's needed to sync your data and show your rank and streams. We don't sell your data, we don't show ads and you can ask us to delete everything whenever you want.`],
+      [`<h2>1. Quiénes somos</h2>`, `<h2>1. Who we are</h2>`],
+      [`ZeniPlatform ("Zeni", "nosotros") es un launcher de juegos para Windows desarrollado por un equipo independiente en Chile. Esta política explica qué datos trata la aplicación de escritorio, el servidor de Zeni y este sitio web. Para cualquier consulta sobre tus datos, escríbenos a `, `ZeniPlatform ("Zeni", "we") is a game launcher for Windows developed by an independent team in Chile. This policy explains what data is processed by the desktop app, the Zeni server and this website. For any questions about your data, write to us at `],
+      [`<h2>2. Qué datos se quedan en tu PC</h2>`, `<h2>2. What data stays on your PC</h2>`],
+      [`Sin cuenta, todo esto se guarda <b>solo en tu computador</b> y no lo recibimos:`, `Without an account, all of this is stored <b>only on your computer</b> and we don't receive it:`],
+      [`La lista de juegos instalados que Zeni detecta (Steam, Epic, Riot, Xbox).`, `The list of installed games that Zeni detects (Steam, Epic, Riot, Xbox).`],
+      [`Tus ajustes, favoritos, juegos recientes, colores y tema.`, `Your settings, favorites, recent games, colors and theme.`],
+      [`Los resultados de ranked que anotas a mano.`, `The ranked results you enter by hand.`],
+      [`<b>El tiempo jugado</b> por juego y por día (ver abajo cómo se mide).`, `<b>Your playtime</b> per game and per day (see below for how it's measured).`],
+      [`Cuántas veces abres cada juego desde Zeni (últimos 30 días), los matchups que abres en LoLalytics y tus partidas ranked de LoL de los últimos 12 meses: con esto se calculan las misiones, los logros y los marcos animados.`, `How many times you open each game from Zeni (last 30 days), the matchups you open on LoLalytics and your LoL ranked games from the last 12 months: these are used to calculate missions, achievements and animated frames.`],
+      [`El resumen semanal (Zeni Wrapped): se arma en tu PC y la imagen solo sale de él si tú la copias o la guardas para compartirla.`, `The weekly recap (Zeni Wrapped): it's created on your PC, and the image only leaves it if you copy or save it to share.`],
+      [`<h3>Cómo se mide el tiempo jugado</h3>`, `<h3>How playtime is measured</h3>`],
+      [`Mientras Zeni está abierto, cada 30 segundos revisa la lista de programas en ejecución de Windows y la compara con las carpetas de instalación de los juegos de tu biblioteca. Solo anota el tiempo de esos juegos: no mira el contenido de las ventanas, no lee tus archivos ni la memoria de los juegos y no registra los demás programas. El tiempo se guarda solo en tu PC.`, `While Zeni is open, every 30 seconds it checks the list of programs running on Windows and compares it with the install folders of the games in your library. It only records time for those games: it doesn't look at window contents, doesn't read your files or game memory and doesn't log other programs. The time is stored only on your PC.`],
+      [`<h3>Ordenar el escritorio</h3>`, `<h3>Cleaning up the desktop</h3>`],
+      [`Si usas "Limpia tu escritorio", Zeni lee los accesos directos de tu escritorio para encontrar juegos y, solo si lo confirmas, los mueve a la carpeta <i>Documentos\\Accesos directos (Zeni)</i>. Anota qué movió para poder devolverlos con un clic. Nada de esto sale de tu PC.`, `If you use "Clean up your desktop", Zeni reads your desktop shortcuts to find games and, only if you confirm, moves them to the <i>Documents\\Accesos directos (Zeni)</i> folder. It keeps a note of what it moved so it can put them back in one click. None of this leaves your PC.`],
+      [`Si inicias sesión, la sesión se guarda en el Administrador de credenciales de Windows de tu PC.`, `If you sign in, the session is stored in Windows Credential Manager on your PC.`],
+      [`<h2>3. Qué datos guardamos en el servidor</h2>`, `<h2>3. What data we store on the server</h2>`],
+      [`Solo si creas una cuenta de Zeni (es opcional) o usas las funciones que lo indican:`, `Only if you create a Zeni account (it's optional) or use the features that say so:`],
+      [`<tr><th>Dato</th><th>Para qué</th></tr>`, `<tr><th>Data</th><th>What for</th></tr>`],
+      [`<b>Correo y nombre visible</b></td><td>Identificar tu cuenta e iniciar sesión.`, `<b>Email and display name</b></td><td>To identify your account and sign you in.`],
+      [`<b>Contraseña</b></td><td>Iniciar sesión. Nunca guardamos tu contraseña: solo un resumen cifrado (Argon2id) que no se puede revertir.`, `<b>Password</b></td><td>To sign you in. We never store your password: only an irreversible hash (Argon2id).`],
+      [`<b>Sesiones</b></td><td>Mantenerte conectado. Guardamos un resumen cifrado de la sesión, la fecha de vencimiento (30 días) y el tipo de aplicación desde la que entraste.`, `<b>Sessions</b></td><td>To keep you signed in. We store a hash of the session, its expiry date (30 days) and the type of application you signed in from.`],
+      [`<b>Datos sincronizados</b></td><td>Tener tu Zeni igual en cualquier PC: tus ajustes (incluido tu Riot ID y servidor, límite diario, stop-loss y rango de Valorant), favoritos, colores, tema, marco, título y avatar de perfil (o la foto de una cuenta vinculada, si eliges usarla) e historial de ranked anotado (juego, victoria o derrota y fecha).`, `<b>Synced data</b></td><td>To keep your Zeni the same on any PC: your settings (including your Riot ID and server, daily limit, stop-loss and Valorant rank), favorites, colors, theme, profile frame, title and avatar (or the photo from a linked account, if you choose to use it) and your manually entered ranked history (game, win or loss, and date).`],
+      [`<b>Cuentas vinculadas</b></td><td>Si vinculas Twitch, Kick, Discord o YouTube: el identificador, nombre de usuario, nombre visible y foto de perfil de esa plataforma. Para Twitch y YouTube, además, el acceso cifrado que permite mostrar quién está en vivo.`, `<b>Linked accounts</b></td><td>If you link Twitch, Kick, Discord or YouTube: your ID, username, display name and profile picture on that platform. For Twitch and YouTube, also the encrypted access that lets us show who's live.`],
+      [`<b>Canales de Kick</b></td><td>Los canales que agregas en la sección "En vivo", para mostrarte cuándo transmiten.`, `<b>Kick channels</b></td><td>The channels you add in the "Live" section, to show you when they're streaming.`],
+      [`<b>Pausas Zen y descansos</b></td><td>Cada pausa Zen o descanso que tomas: el tipo, la fecha, el juego y los LP que se estima que salvaste. Sirve para tu contador de "LP salvado", tus logros y tu nivel en cualquier PC.`, `<b>Zen breaks and rests</b></td><td>Each Zen break or rest you take: the type, date, game and estimated LP saved. Used for your "saved LP" counter, your achievements and your level on any PC.`],
+      [`<b>Misiones reclamadas</b></td><td>Qué misión reclamaste (por ejemplo "jugar 1 hora hoy"), la XP que dio y la fecha. El servidor no recibe tu tiempo jugado: solo que completaste la misión.`, `<b>Claimed missions</b></td><td>Which mission you claimed (for example "play for 1 hour today"), the XP it gave and the date. The server doesn't receive your playtime: only that you completed the mission.`],
+      [`<b>Invitaciones</b></td><td>Tu código de invitación y, si alguien se registra con él, quién invitó a quién (para dar las recompensas). Quien te invitó ve tu nombre visible; tú ves el suyo.`, `<b>Invites</b></td><td>Your invite code and, if someone signs up with it, who invited whom (to give the rewards). Whoever invited you sees your display name; you see theirs.`],
+      [`<b>Bot de Discord</b></td><td>Solo si usas los comandos <code>/zeni</code>: los servidores de Discord donde te uniste con <code>/zeni unirme</code> y, para cada servidor, el canal que eligió su administración para los avisos.`, `<b>Discord bot</b></td><td>Only if you use the <code>/zeni</code> commands: the Discord servers you joined with <code>/zeni unirme</code> and, for each server, the channel its admins chose for notices.`],
+      [`<b>Comentarios</b></td><td>Si usas "Enviar comentarios": el mensaje, su tipo, la versión de Zeni, tu cuenta (si tenías sesión) y el correo de contacto solo si lo dejas.`, `<b>Feedback</b></td><td>If you use "Send feedback": the message, its type, the Zeni version, your account (if you were signed in) and a contact email only if you leave one.`],
+      [`<h3>Permisos que pedimos al vincular cuentas</h3>`, `<h3>Permissions we request when linking accounts</h3>`],
+      [`<b>Twitch:</b> ver los canales que sigues, para mostrarte quién está en vivo. Para eso guardamos el acceso que entrega Twitch, <b>cifrado</b> (AES-256-GCM).`, `<b>Twitch:</b> to see the channels you follow, so we can show you who's live. For this we store the access granted by Twitch, <b>encrypted</b> (AES-256-GCM).`],
+      [`<b>YouTube (Google):</b> solo lectura de tu perfil, tu canal y la lista de canales a los que estás suscrito, para mostrarte cuáles están en vivo. Para eso guardamos el acceso que entrega Google, <b>cifrado</b> (AES-256-GCM). No publicamos nada, no cambiamos tus suscripciones y no leemos tu historial ni tus comentarios.`, `<b>YouTube (Google):</b> read-only access to your profile, your channel and the list of channels you subscribe to, so we can show you which ones are live. For this we store the access granted by Google, <b>encrypted</b> (AES-256-GCM). We don't post anything, don't change your subscriptions and don't read your history or comments.`],
+      [`<b>Kick y Discord:</b> solo leer tu perfil básico. No guardamos accesos a esas cuentas.`, `<b>Kick and Discord:</b> only to read your basic profile. We don't store access to those accounts.`],
+      [`Nunca vemos tu contraseña de esas plataformas: la autorización ocurre en su propia página. Al desvincular una cuenta, borramos sus datos y anulamos el acceso ante la plataforma. También puedes quitarle el acceso a Zeni directamente desde cada plataforma; en Google, desde <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">la configuración de seguridad de tu cuenta</a>.`, `We never see your password for those platforms: authorization happens on their own page. When you unlink an account, we delete its data and revoke the access with the platform. You can also remove Zeni's access directly from each platform; on Google, from <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">your account's security settings</a>.`],
+      [`<h3>Datos de YouTube y Google</h3>`, `<h3>YouTube and Google data</h3>`],
+      [`Zeni usa los Servicios de API de YouTube. Al vincular YouTube, también aplica la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Política de Privacidad de Google</a>. Usamos tus suscripciones solo para mostrarte, a ti, qué canales están en vivo: las guardamos en memoria por unas horas y no las compartimos con nadie.`, `Zeni uses the YouTube API Services. When you link YouTube, the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a> also applies. We use your subscriptions only to show you which channels are live: we keep them in memory for a few hours and don't share them with anyone.`],
+      [`El uso y la transferencia que hace ZeniPlatform de la información recibida de las API de Google cumple con la <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Política de Datos de Usuario de los Servicios de API de Google</a>, incluidos los requisitos de Uso Limitado.`, `ZeniPlatform's use and transfer of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.`],
+      [`<h3>El bot de Discord de Zeni</h3>`, `<h3>The Zeni Discord bot</h3>`],
+      [`El bot es opcional y solo funciona con tu Discord vinculado a Zeni. Cuando escribes <code>/zeni unirme</code> en un servidor, aceptas que los miembros de ese servidor vean, en ese servidor:`, `The bot is optional and only works with your Discord linked to Zeni. When you type <code>/zeni unirme</code> in a server, you agree that the members of that server can see, in that server:`],
+      [`Tu nombre visible de Zeni y tu rango de League of Legends (en <code>/zeni rango</code> y <code>/zeni ranking</code>).`, `Your Zeni display name and your League of Legends rank (in <code>/zeni rango</code> and <code>/zeni ranking</code>).`],
+      [`Un resumen diario con tus victorias y derrotas en ranked de ese día (LoL y lo que anotas de Valorant).`, `A daily recap of your ranked wins and losses for that day (LoL and what you enter for Valorant).`],
+      [`Un aviso cuando activas tu stop-loss, <b>solo</b> si activaste "Avisar en mis servidores cuando active el stop-loss" en los Ajustes de la app.`, `A notice when you hit your stop-loss, <b>only</b> if you turned on the option to notify your servers in the app's Settings.`],
+      [`Puedes dejar de compartir en cualquier momento con <code>/zeni salir</code> en cada servidor o desactivando el aviso en Ajustes. Lo que el bot ya publicó queda en Discord bajo las reglas de ese servidor y la <a href="https://discord.com/privacy" target="_blank" rel="noopener">Política de Privacidad de Discord</a>.`, `You can stop sharing at any time with <code>/zeni salir</code> in each server or by turning off the notice in Settings. What the bot has already posted stays on Discord, under that server's rules and the <a href="https://discord.com/privacy" target="_blank" rel="noopener">Discord Privacy Policy</a>.`],
+      [`<h3>Tu rango de League of Legends</h3>`, `<h3>Your League of Legends rank</h3>`],
+      [`Para mostrar tu rango y tus partidas de hoy, nuestro servidor consulta la API oficial de Riot Games con tu Riot ID y servidor. La respuesta se envía a tu app (o al servidor de Discord donde se pidió con el bot) y no la guardamos en la base de datos; solo queda en memoria unos minutos para no repetir consultas.`, `To show your rank and today's games, our server queries the official Riot Games API with your Riot ID and server. The response is sent to your app (or to the Discord server where it was requested with the bot) and we don't store it in the database; it only stays in memory for a few minutes to avoid repeating requests.`],
+      [`<h3>Datos técnicos</h3>`, `<h3>Technical data</h3>`],
+      [`Como cualquier servicio en internet, nuestro servidor recibe tu dirección IP. La usamos solo para limitar abusos (por ejemplo, demasiados intentos de inicio de sesión) y no la guardamos en la base de datos. Nuestro proveedor de servidores puede conservar registros técnicos por un tiempo limitado.`, `Like any internet service, our server receives your IP address. We use it only to limit abuse (for example, too many sign-in attempts) and don't store it in the database. Our server provider may keep technical logs for a limited time.`],
+      [`<h2>4. Qué no hacemos</h2>`, `<h2>4. What we don't do</h2>`],
+      [`No vendemos ni alquilamos tus datos.`, `We don't sell or rent your data.`],
+      [`No mostramos publicidad ni usamos tus datos para perfiles publicitarios.`, `We don't show ads or use your data for advertising profiles.`],
+      [`No leemos tus archivos, partidas ni la memoria de tus juegos. Para el tiempo jugado solo vemos qué juegos de tu biblioteca están abiertos.`, `We don't read your files, matches or game memory. For playtime, we only see which games in your library are open.`],
+      [`Este sitio web no usa cookies de seguimiento.`, `This website doesn't use tracking cookies.`],
+      [`<h2>5. Con quién compartimos datos</h2>`, `<h2>5. Who we share data with</h2>`],
+      [`Solo con los servicios necesarios para que Zeni funcione:`, `Only with the services needed for Zeni to work:`],
+      [`<b>Railway</b> (Estados Unidos): aloja nuestro servidor y base de datos.`, `<b>Railway</b> (United States): hosts our server and database.`],
+      [`<b>Vercel:</b> aloja este sitio web.`, `<b>Vercel:</b> hosts this website.`],
+      [`<b>GitHub:</b> aloja los instaladores y las actualizaciones.`, `<b>GitHub:</b> hosts the installers and updates.`],
+      [`<b>Discord:</b> recibimos ahí los comentarios que nos envías, en un canal privado del equipo. Si usas el bot, publica en los servidores donde te uniste lo descrito arriba.`, `<b>Discord:</b> we receive the feedback you send us there, in a private team channel. If you use the bot, it posts what's described above in the servers you joined.`],
+      [`<b>Riot Games, Twitch, Kick, Discord y Google (YouTube):</b> solo cuando usas la función relacionada (rango, "En vivo" o vincular cuentas), y solo lo necesario para esa función.`, `<b>Riot Games, Twitch, Kick, Discord and Google (YouTube):</b> only when you use the related feature (rank, "Live" or linking accounts), and only what that feature needs.`],
+      [`Si activas "Mostrar mi actividad en Discord", Zeni comparte con la app de Discord de tu PC lo que estás haciendo en Zeni (por ejemplo, qué juego estás eligiendo). Lo puedes desactivar en Ajustes.`, `If you turn on "Show my activity on Discord", Zeni shares what you're doing in Zeni (for example, which game you're choosing) with the Discord app on your PC. You can turn it off in Settings.`],
+      [`<h2>6. Cuánto tiempo guardamos los datos</h2>`, `<h2>6. How long we keep data</h2>`],
+      [`Los datos de tu cuenta, mientras la tengas.`, `Your account data, for as long as you have the account.`],
+      [`Las sesiones vencen a los 30 días o al cerrar sesión.`, `Sessions expire after 30 days or when you sign out.`],
+      [`Las cuentas vinculadas, hasta que las desvincules o borres tu cuenta.`, `Linked accounts, until you unlink them or delete your account.`],
+      [`Las pausas Zen, misiones reclamadas e invitaciones, mientras tengas la cuenta.`, `Zen breaks, claimed missions and invites, for as long as you have the account.`],
+      [`Tu participación en un servidor de Discord, hasta que uses <code>/zeni salir</code> o borres tu cuenta.`, `Your participation in a Discord server, until you use <code>/zeni salir</code> or delete your account.`],
+      [`Los comentarios, mientras sean útiles para mejorar Zeni.`, `Feedback, for as long as it's useful for improving Zeni.`],
+      [`<h2>7. Tus derechos</h2>`, `<h2>7. Your rights</h2>`],
+      [`<b>Puedes borrar tu cuenta tú mismo</b> en cualquier momento desde la app: abre tu perfil y toca <b>Eliminar mi cuenta</b>. Se borran al instante tu cuenta, tus datos sincronizados, tus cuentas vinculadas (anulando el acceso de Zeni en cada plataforma), tus canales de Kick, tus pausas Zen, tus misiones reclamadas, tus invitaciones, tu participación en servidores de Discord y los comentarios que enviaste. Lo que se guarda solo en tu PC (tiempo jugado, juegos, ajustes) no lo recibimos: lo borras al desinstalar Zeni marcando la opción de eliminar los datos de la aplicación.`, `<b>You can delete your account yourself</b> at any time from the app: open your profile and click <b>Delete my account</b> (Eliminar mi cuenta). This instantly deletes your account, your synced data, your linked accounts (revoking Zeni's access on each platform), your Kick channels, your Zen breaks, your claimed missions, your invites, your participation in Discord servers and the feedback you sent. We don't receive what's stored only on your PC (playtime, games, settings): you delete it by uninstalling Zeni and selecting the option to remove the application data.`],
+      [`También puedes pedirnos en cualquier momento <b>acceder</b> a tus datos, <b>corregirlos</b> o <b>eliminarlos</b>. Escríbenos a <a href="mailto:contacto@zeni-platform.cl">contacto@zeni-platform.cl</a> desde el correo de tu cuenta y responderemos dentro de 15 días hábiles. También puedes desvincular tus cuentas y cerrar sesión directamente en la app.`, `You can also ask us at any time to <b>access</b>, <b>correct</b> or <b>delete</b> your data. Write to <a href="mailto:contacto@zeni-platform.cl">contacto@zeni-platform.cl</a> from your account's email and we'll reply within 15 business days. You can also unlink your accounts and sign out directly in the app.`],
+      [`Tratamos tus datos conforme a la ley chilena de protección de datos personales.`, `We process your data in accordance with Chilean personal data protection law.`],
+      [`<h2>8. Seguridad</h2>`, `<h2>8. Security</h2>`],
+      [`Toda la comunicación viaja cifrada (HTTPS). Las contraseñas y sesiones se guardan como resúmenes irreversibles, los accesos de Twitch y YouTube van cifrados, los mensajes del bot de Discord se verifican con la firma de Discord y las actualizaciones de la app van firmadas, para que solo se instalen versiones oficiales de Zeni. Ningún sistema es 100 % seguro, pero hacemos lo razonable para proteger tus datos y te avisaremos si ocurre un problema que te afecte.`, `All communication is encrypted (HTTPS). Passwords and sessions are stored as irreversible hashes, Twitch and YouTube access is encrypted, Discord bot messages are verified with Discord's signature and app updates are signed, so that only official versions of Zeni get installed. No system is 100% secure, but we do what's reasonable to protect your data and will let you know if a problem affects you.`],
+      [`<h2>9. Menores de edad</h2>`, `<h2>9. Minors</h2>`],
+      [`Zeni está pensado para personas de 13 años o más, la misma edad mínima que piden Riot Games, Twitch y Discord. Si eres menor de edad, usa Zeni con el permiso de tu madre, padre o tutor.`, `Zeni is intended for people aged 13 or older, the same minimum age required by Riot Games, Twitch and Discord. If you are a minor, use Zeni with the permission of a parent or guardian.`],
+      [`<h2>10. Cambios a esta política</h2>`, `<h2>10. Changes to this policy</h2>`],
+      [`Si cambiamos esta política, actualizaremos la fecha de arriba. Si el cambio es importante, lo avisaremos en la app o en este sitio.`, `If we change this policy, we'll update the date above. If the change is important, we'll announce it in the app or on this site.`],
+    ],
+  },
+  {
+    src: "guias/como-no-tiltear-en-lol.html",
+    out: "en/guides/how-not-to-tilt-in-lol.html",
+    url: "/en/guides/how-not-to-tilt-in-lol",
+    es: "/guias/como-no-tiltear-en-lol",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: "How not to tilt in LoL: stop-loss and ranked limits",
+        description: "A guide to stop tilting in League of Legends: how to recognize tilt, the stop-loss rule, how many ranked games to play per day and habits to stop losing LP by playing angry.",
+        inLanguage: "en",
+        datePublished: "2026-10-21",
+        dateModified: "2026-10-21",
+        image: `${BASE}/img/s3-guard.webp`,
+        author: { "@type": "Organization", name: "ZeniPlatform", url: `${BASE}/en/` },
+        publisher: { "@type": "Organization", name: "ZeniPlatform", logo: { "@type": "ImageObject", url: `${BASE}/img/icon-192.png` } },
+        mainEntityOfPage: `${BASE}/en/guides/how-not-to-tilt-in-lol`,
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${BASE}/en/` },
+          { "@type": "ListItem", position: 2, name: "How not to tilt in LoL", item: `${BASE}/en/guides/how-not-to-tilt-in-lol` },
+        ],
+      },
+    ],
+    pairs: [
+      [`<title>Cómo no tiltear en LoL: stop-loss y límite de ranked | ZeniPlatform</title>`, `<title>How not to tilt in LoL: stop-loss and ranked limits | ZeniPlatform</title>`],
+      [`content="Guía para dejar de tiltear en League of Legends: cómo reconocer el tilt, la regla del stop-loss, cuántas rankeds jugar al día y hábitos para no perder LP por jugar enojado."`, `content="A guide to stop tilting in League of Legends: how to recognize tilt, the stop-loss rule, how many ranked games to play per day and habits to stop losing LP by playing angry."`],
+      [`property="og:title" content="Cómo no tiltear en LoL: stop-loss y límite de ranked"`, `property="og:title" content="How not to tilt in LoL: stop-loss and ranked limits"`],
+      [`content="Reconoce el tilt, aplica la regla del stop-loss y deja de perder LP por jugar enojado."`, `content="Recognize tilt, apply the stop-loss rule and stop losing LP by playing angry."`],
+      [`<a href="/">Inicio</a> › Guías › Cómo no tiltear en LoL`, `<a href="/">Home</a> › Guides › How not to tilt in LoL`],
+      [`<h1>Cómo no tiltear en LoL: stop-loss y límite de ranked</h1>`, `<h1>How not to tilt in LoL: stop-loss and ranked limits</h1>`],
+      [`Guía · 6 minutos de lectura`, `Guide · 6-minute read`],
+      [`Todos lo hemos vivido: pierdes una ranked por un jungla que no apareció, entras a la siguiente "para recuperar", pierdes otra… y a las 3 de la mañana llevas cinco derrotas seguidas y 80 LP menos. Eso es el <b>tilt</b>, y es la forma más rápida de bajar de liga. La buena noticia: se puede evitar con un par de reglas simples.`, `We've all been there: you lose a ranked game because your jungler never showed up, you queue again "to win it back", you lose another… and at 3 a.m. you're on five straight losses and down 80 LP. That's <b>tilt</b>, and it's the fastest way to drop a league. The good news: a couple of simple rules can prevent it.`],
+      [`Qué es el tilt en League of Legends`, `What tilt is in League of Legends`],
+      [`El tilt es cuando la frustración empieza a decidir por ti. Juegas más agresivo de lo que deberías, culpas al equipo, dejas de mirar el minimapa y tomas peleas que no tienes que tomar. Lo peor es que, en tilt, <b>sientes que la próxima partida sí la vas a ganar</b>, y por eso sigues jugando.`, `Tilt is when frustration starts making your decisions. You play more aggressively than you should, blame your team, stop looking at the minimap and take fights you shouldn't. Worst of all, when you're tilted, <b>you feel sure you'll win the next game</b>, and that's why you keep playing.`],
+      [`Señales de que estás tilteado`, `Signs that you're tilted`],
+      [`Escribes en el chat (o tienes ganas de hacerlo) para culpar a alguien.`, `You type in chat (or want to) to blame someone.`],
+      [`Haces "una más para recuperar el LP" justo después de perder.`, `You play "one more to win the LP back" right after losing.`],
+      [`Te enojas antes de que termine la selección de campeones.`, `You get angry before champion select is over.`],
+      [`Juegas campeones fuera de tu pool "para probar algo".`, `You play champions outside your pool "to try something".`],
+      [`Ya no te acuerdas de por qué perdiste las últimas partidas: solo de que fue culpa de otros.`, `You can't remember why you lost your last games: only that it was someone else's fault.`],
+      [`Si te reconoces en dos o más, es momento de parar.`, `If two or more sound familiar, it's time to stop.`],
+      [`La regla del stop-loss`, `The stop-loss rule`],
+      [`El <b>stop-loss</b> es una idea que viene de las inversiones: decides <i>antes</i> cuánto estás dispuesto a perder, y cuando llegas a ese punto, sales sin discutir. En LoL funciona igual:`, `The <b>stop-loss</b> is an idea from investing: you decide <i>beforehand</i> how much you're willing to lose, and when you reach that point, you get out, no arguments. It works the same way in LoL:`],
+      [`<b>Regla:</b> si pierdes <b>2 rankeds seguidas</b>, para. Toma un descanso de al menos 20 minutos antes de volver a jugar ranked (o termina por hoy).`, `<b>Rule:</b> if you lose <b>2 ranked games in a row</b>, stop. Take a break of at least 20 minutes before playing ranked again (or call it a day).`],
+      [`¿Por qué 2? Porque una derrota puede ser mala suerte, pero dos seguidas suelen significar que algo en ti cambió: cansancio, frustración o falta de concentración. Si juegas con más calma, puedes subirlo a 3. Lo importante es decidirlo <b>antes</b> de empezar, no en caliente.`, `Why 2? Because one loss can be bad luck, but two in a row often mean something has changed in you: tiredness, frustration or a lack of focus. If you play more calmly, you can raise it to 3. What matters is deciding <b>before</b> you start, not in the heat of the moment.`],
+      [`alt="Aviso de stop-loss en ZeniPlatform: llevas 2 derrotas seguidas en League of Legends"`, `alt="Stop-loss warning in ZeniPlatform: you have lost 2 League of Legends games in a row"`],
+      [`Zeni te avisa antes de abrir otra ranked cuando llegas a tu stop-loss.`, `Zeni warns you before you open another ranked game when you hit your stop-loss.`],
+      [`¿Cuántas rankeds jugar al día?`, `How many ranked games should you play per day?`],
+      [`No hay un número mágico, pero sí una idea clara: <b>la calidad baja con cada partida</b>. Después de varias horas, tu tiempo de reacción y tus decisiones empeoran aunque no lo notes. Un buen punto de partida:`, `There's no magic number, but there is a clear idea: <b>quality drops with every game</b>. After several hours, your reaction time and decisions get worse, even if you don't notice. A good starting point:`],
+      [`<b>3 a 5 rankeds al día</b> si buscas subir de liga de forma constante.`, `<b>3 to 5 ranked games a day</b> if you want to climb steadily.`],
+      [`Juega tus partidas más importantes cuando estés descansado, no a última hora.`, `Play your most important games when you're rested, not late at night.`],
+      [`Si llegas a tu límite ganando, igual para: mañana vas a jugar mejor.`, `If you reach your limit while winning, stop anyway: you'll play better tomorrow.`],
+      [`Hábitos que ayudan a no tiltear`, `Habits that help you avoid tilt`],
+      [`<b>Silencia el chat</b> desde el inicio (/mute all). Te ahorras discusiones que no cambian el resultado.`, `<b>Mute chat</b> from the start (/mute all). It saves you arguments that won't change the outcome.`],
+      [`<b>Haz una pausa corta entre partidas:</b> levántate, toma agua, no aceptes la cola de inmediato.`, `<b>Take a short break between games:</b> get up, drink some water, don't queue again right away.`],
+      [`<b>Mira por qué perdiste, no quién tuvo la culpa.</b> Revisa una jugada tuya que podrías haber hecho mejor.`, `<b>Look at why you lost, not whose fault it was.</b> Review one of your own plays that you could have done better.`],
+      [`<b>Juega normals o ARAM</b> si quieres seguir jugando después de tu stop-loss.`, `<b>Play normals or ARAM</b> if you want to keep playing after your stop-loss.`],
+      [`<b>Duerme bien.</b> Suena obvio, pero es lo que más afecta tu nivel.`, `<b>Get enough sleep.</b> It sounds obvious, but it's what affects your level the most.`],
+      [`Cómo te ayuda ZeniPlatform`, `How ZeniPlatform helps`],
+      [`Las reglas funcionan… si las cumples. El problema es que en tilt no te acuerdas de ellas. Por eso hicimos <b>ZeniPlatform</b>, un launcher gratis para Windows que las aplica por ti:`, `The rules work… if you follow them. The problem is that when you're tilted, you forget them. That's why we built <b>ZeniPlatform</b>, a free launcher for Windows that keeps track of them for you:`],
+      [`<b>Stop-loss automático:</b> cuenta tus derrotas de hoy con la API oficial de Riot y te avisa antes de abrir otra ranked.`, `<b>Automatic stop-loss:</b> it counts today's losses with Riot's official API and warns you before you open another ranked game.`],
+      [`<b>Límite diario de ranked:</b> eliges cuántas jugar y Zeni te lo recuerda.`, `<b>Daily ranked limit:</b> you choose how many to play and Zeni reminds you.`],
+      [`<b>Tu rango y LP a la vista</b>, con las partidas de hoy, campeón y KDA.`, `<b>Your rank and LP at a glance</b>, with today's games, champion and KDA.`],
+      [`<b>Varias cuentas:</b> si cambias a tu smurf, las derrotas se siguen sumando. El tilt es tuyo, no de la cuenta.`, `<b>Multiple accounts:</b> if you switch to your smurf, the losses keep adding up. The tilt is yours, not the account's.`],
+      [`También funciona con <b>Valorant</b> (anotando tus resultados).`, `It also works with <b>Valorant</b> (by entering your results).`],
+      [`<h2>Prueba Zeni gratis</h2>`, `<h2>Try Zeni for free</h2>`],
+      [`Launcher para Windows 10 y 11. Sin anuncios, sin cuenta obligatoria y se actualiza solo.`, `A launcher for Windows 10 and 11. No ads, no account required, and it updates itself. ${FREE_NOTE}`],
+      [`>Descargar para Windows</a>`, `>Download for Windows</a>`],
+      [`>Ver todas las funciones</a>`, `>See all features</a>`],
+      [`<a href="/">Inicio</a> · <a href="/terminos">Términos</a> · <a href="/privacidad">Privacidad</a>`, `<a href="/">Home</a> · <a href="/terminos">Terms</a> · <a href="/privacidad">Privacy</a>`],
+    ],
+  },
+];
+
+const errors = [];
+const sitemap = [];
+for (const p of PAGES) {
+  let t = fs.readFileSync(path.join(PUB, p.src), "utf8").replace(/\r\n/g, "\n");
+
+  // Traducciones propias de la página: si un texto ya no está, hay que actualizar este script.
+  for (const [a, b] of p.pairs) {
+    if (!t.includes(a)) errors.push(`${p.src}: no se encontró "${a.slice(0, 70)}"`);
+    t = t.split(a).join(b);
+  }
+  for (const [a, b] of COMMON) t = t.split(a).join(b);
+
+  // Datos para Google (el FAQ sale del texto visible, para que siempre coincidan)
+  if (p.jsonLd) {
+    const faq = [...t.matchAll(/<summary>(.*?)<\/summary><p>(.*?)<\/p>/g)].map(([, q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a.replace(/<[^>]+>/g, "") } }));
+    if (faq.length) p.jsonLd = [...p.jsonLd, { "@context": "https://schema.org", "@type": "FAQPage", inLanguage: "en", mainEntity: faq }];
+    t = t.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, `<script type="application/ld+json">${JSON.stringify(p.jsonLd)}</script>`);
+  }
+
+  // Idioma, dirección canónica y datos sociales
+  t = t.replace(`<html lang="es">`, `<html lang="en">`);
+  t = t.replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${BASE}${p.url}">`);
+  t = t.replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${BASE}${p.url}">`);
+  t = t.replace(`content="es_CL"`, `content="en_US"`);
+
+  // Enlaces internos a sus versiones en inglés
+  t = t.replace(/href="(\/[^"]*?)(#[^"]*)?"(?! hreflang="es")/g, (m, url, hash = "") => {
+    const to = LINKS[url];
+    return to ? `href="${to}${hash}"` : m;
+  });
+  t = t.replace(/href="#"(?=><img)/, `href="/en/"`);
+
+  // Botón de idioma: desde aquí se vuelve al español
+  t = t.replace(/<a class="lang-switch"[^>]*>.*?<\/a>/, `<a class="lang-switch" href="${p.es}" hreflang="es" lang="es" aria-label="Cambiar a español" title="Cambiar a español"><span aria-hidden="true">🌐</span> ES</a>`);
+
+  // Revisión: no debe quedar texto visible en español
+  const visible = t
+    .replace(/<script[\s\S]*?<\/script>/g, (s) => (s.includes("ld+json") ? "" : s))
+    .replace(/<style[\s\S]*?<\/style>/g, "")
+    .replace(/<a class="lang-switch"[^>]*>/, "");
+  for (const line of visible.split("\n")) {
+    if (line.trim().startsWith("//")) continue;
+    if (/[áéíóúñ¿¡]/i.test(line) && !/Spanish|Español|español/.test(line)) errors.push(`${p.src}: quedó en español → ${line.trim().slice(0, 90)}`);
+  }
+
+  const out = path.join(PUB, p.out);
+  fs.mkdirSync(path.dirname(out), { recursive: true });
+  fs.writeFileSync(out, t);
+  sitemap.push(p.url);
+}
+
+if (errors.length) {
+  console.error(errors.join("\n"));
+  console.error(`\n${errors.length} problema(s): actualiza las traducciones en scripts/build-en.cjs.`);
+  process.exit(1);
+}
+
+// Sitemap: agrega las páginas en inglés si faltan.
+const smFile = path.join(PUB, "sitemap.xml");
+let sm = fs.readFileSync(smFile, "utf8");
+const nl = sm.includes("\r\n") ? "\r\n" : "\n";
+for (const url of sitemap) {
+  if (sm.includes(`<loc>${BASE}${url}</loc>`)) continue;
+  sm = sm.replace("</urlset>", `  <url><loc>${BASE}${url}</loc><lastmod>2026-11-02</lastmod><changefreq>monthly</changefreq><priority>${url === "/en/" ? "0.9" : "0.5"}</priority></url>${nl}</urlset>`);
+}
+fs.writeFileSync(smFile, sm);
+console.log(`Listo: ${PAGES.length} páginas en public/en/`);

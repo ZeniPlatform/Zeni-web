@@ -5,6 +5,13 @@
   var ICON = { critical: "⛔", warning: "⚠️", info: "ℹ️" };
   var ORDER = { critical: 0, warning: 1, info: 2 };
   var SEEN = "zp-web-notices-seen";
+  // Páginas en inglés: textos propios y, si el aviso los trae, title_en y message_en.
+  var EN = document.documentElement.lang === "en";
+  var T = EN
+    ? { aria: "Notices from the Zeni team", head: "Zeni notices", more: "More information" }
+    : { aria: "Avisos del equipo de Zeni", head: "Avisos de Zeni", more: "Más información" };
+  function title(n) { return (EN && n.title_en) || n.title; }
+  function message(n) { return (EN && n.message_en) || n.message; }
 
   function seen() {
     try { return JSON.parse(localStorage.getItem(SEEN) || "[]"); } catch (e) { return []; }
@@ -19,10 +26,11 @@
   function ago(iso) {
     if (!iso) return "";
     var min = Math.max(1, Math.round((Date.now() - Date.parse(iso)) / 60000));
-    if (min < 60) return "hace " + min + " min";
+    if (min < 60) return EN ? min + " min ago" : "hace " + min + " min";
     var h = Math.floor(min / 60);
-    if (h < 24) return "hace " + h + " h";
+    if (h < 24) return EN ? h + " h ago" : "hace " + h + " h";
     var d = new Date(iso);
+    if (EN) return "since " + d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     return "desde el " + d.getDate() + " de " + d.toLocaleDateString("es-CL", { month: "short" }).replace(".", "");
   }
   function el(tag, cls, text) {
@@ -46,25 +54,25 @@
       var btn = el("button", "zn-pill zn-" + level + (unseen ? " zn-new" : ""));
       btn.type = "button";
       btn.setAttribute("aria-expanded", "false");
-      btn.setAttribute("aria-label", "Avisos del equipo de Zeni (" + list.length + ")");
+      btn.setAttribute("aria-label", T.aria + " (" + list.length + ")");
       btn.append(el("span", "zn-mark", "!"));
-      var label = el("span", "zn-label", list[0].title);
+      var label = el("span", "zn-label", title(list[0]));
       if (list.length > 1) label.append(el("small", "", " +" + (list.length - 1)));
       btn.append(label);
 
       var pop = el("div", "zn-pop");
       pop.hidden = true;
       pop.setAttribute("role", "dialog");
-      pop.setAttribute("aria-label", "Avisos del equipo de Zeni");
-      pop.append(el("h3", "", "Avisos de Zeni"));
+      pop.setAttribute("aria-label", T.aria);
+      pop.append(el("h3", "", T.head));
       list.slice(0, 10).forEach(function (n) {
         var item = el("div", "zn-item zn-" + n.level);
         item.append(el("span", "zn-icon", ICON[n.level]));
         var body = el("div");
-        body.append(el("b", "", n.title), el("p", "", n.message));
+        body.append(el("b", "", title(n)), el("p", "", message(n)));
         var meta = el("small", "", ago(n.since));
         if (typeof n.link === "string" && /^https:\/\//.test(n.link)) {
-          var a = el("a", "", (n.since ? " · " : "") + "Más información");
+          var a = el("a", "", (n.since ? " · " : "") + T.more);
           a.href = n.link;
           a.target = "_blank";
           a.rel = "noopener";

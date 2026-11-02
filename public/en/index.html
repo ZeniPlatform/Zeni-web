@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free LoL and Valorant launcher with stop-loss | ZeniPlatform</title>
+  <meta name="description" content="Free launcher for Windows: all your Steam, Epic, Riot and Xbox games in one library, real playtime, missions with XP and a weekly recap. For ranked: LoL rank and LP, a stop-loss against tilt and a Discord bot.">
+  <meta name="theme-color" content="#071512">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="canonical" href="https://www.zeni-platform.cl/en/">
+  <link rel="alternate" hreflang="es" href="https://www.zeni-platform.cl/">
+  <link rel="alternate" hreflang="en" href="https://www.zeni-platform.cl/en/">
+  <link rel="alternate" hreflang="x-default" href="https://www.zeni-platform.cl/">
+  <meta property="og:url" content="https://www.zeni-platform.cl/en/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZeniPlatform">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="ZeniPlatform · The launcher that stops you before you tilt">
+  <meta property="og:description" content="Free for Windows. Your game library with playtime, missions and a weekly recap. Live rank and LP, stop-loss and a Discord bot.">
+  <meta property="og:image" content="https://www.zeni-platform.cl/img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ZeniPlatform · The launcher that stops you before you tilt">
+  <meta name="twitter:description" content="Free for Windows. Your game library with playtime, missions and a weekly recap. Live rank and LP, stop-loss and a Discord bot.">
+  <meta name="twitter:image" content="https://www.zeni-platform.cl/img/og.png">
+  <script type="application/ld+json">[{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ZeniPlatform","alternateName":"Zeni","description":"Free game launcher for Windows that brings together your Steam, Epic, Riot and Xbox games, tracks your playtime, gives you daily, weekly, monthly and yearly missions with XP, and creates a weekly recap to share. For ranked: League of Legends rank and LP, stop-loss, Zen Mode, LoLalytics matchups and a Discord bot.","applicationCategory":"GameApplication","operatingSystem":"Windows 10, Windows 11","url":"https://www.zeni-platform.cl/en/","downloadUrl":"https://github.com/ZeniPlatform/Zeni-releases/releases/latest/download/ZeniPlatform-setup.exe","image":"https://www.zeni-platform.cl/img/og.png","screenshot":["https://www.zeni-platform.cl/img/s1-library.webp","https://www.zeni-platform.cl/img/s6-missions.webp","https://www.zeni-platform.cl/img/s7-wrapped.webp","https://www.zeni-platform.cl/img/s3-guard.webp","https://www.zeni-platform.cl/img/s5-live.webp"],"inLanguage":"en","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"ZeniPlatform","url":"https://www.zeni-platform.cl/en/","logo":"https://www.zeni-platform.cl/img/icon-192.png","sameAs":["https://www.instagram.com/zeni_platform/"]}},{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes, and it always will be for players. No ads, and we don't sell your data."}},{"@type":"Question","name":"Is the app in English?","acceptedAnswer":{"@type":"Answer","text":"Not yet: the Zeni app is currently available in Spanish only. This website is available in both languages."}},{"@type":"Question","name":"Windows says \"Windows protected your PC\". Is it safe?","acceptedAnswer":{"@type":"Answer","text":"Yes. It appears because Zeni is a new app and doesn't have a Windows signing certificate yet (they are very expensive for an independent project). Click More info → Run anyway. Updates are signed: Zeni only installs official versions."}},{"@type":"Question","name":"Do I need an account?","acceptedAnswer":{"@type":"Answer","text":"No. The library, the stop-loss and the ranked limit work without one. A Zeni account is optional and lets you see your LoL rank, sync across PCs, link Twitch, Kick and Discord, and earn XP with missions and achievements."}},{"@type":"Question","name":"Can Riot ban me for using Zeni?","acceptedAnswer":{"@type":"Answer","text":"No. Zeni doesn't touch game files or interfere with your matches: it only opens the game and checks your rank with Riot's official API, just like OP.GG."}},{"@type":"Question","name":"Do missions work with any game?","acceptedAnswer":{"@type":"Answer","text":"Yes. Missions use what Zeni measures in any game in your library: playtime, days played, different games and new games. If you play LoL or Valorant ranked, ranked missions show up too. To claim the XP you need a free Zeni account."}},{"@type":"Question","name":"How do I add the Discord bot to my server?","acceptedAnswer":{"@type":"Answer","text":"In Zeni, open Settings (Ajustes) and, in the Discord section, click Add the bot to a server (Agregar el bot a un servidor). Then each person types /zeni unirme (with their Discord linked in Zeni) and the server admins choose the recap channel with /zeni canal."}},{"@type":"Question","name":"How does it update?","acceptedAnswer":{"@type":"Answer","text":"By itself. When a new version comes out, Zeni lets you know and installs it in one click, without losing your data."}},{"@type":"Question","name":"I found a bug or have an idea","acceptedAnswer":{"@type":"Answer","text":"Tell us! Inside Zeni, in the sidebar, click Send feedback (Enviar comentarios). We read every message."}}]}]</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/footer.css">
+  <style>
+    :root {
+      --bg: #071512; --bg-2: #0b1d19; --panel: #0f2420; --line: #1f3a34;
+      --ink: #e8f3f0; --ink-dim: #9fb8b1; --jade: #3fd1a8; --jade-ink: #04211a;
+      --amber: #ffb547; --red: #ff4d5e; --twitch: #a970ff; --kick: #53fc18; --kofi: #ff5e5b;
+      --display: "Chakra Petch", "Bahnschrift", system-ui, sans-serif;
+      --body: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    img, video { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+    .wrap { width: min(var(--max), 100% - 32px); margin-inline: auto; }
+    h1, h2, h3 { font-family: var(--display); line-height: 1.1; margin: 0; letter-spacing: .01em; }
+    em { font-style: normal; color: var(--jade); }
+
+    /* Barra superior */
+    .nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent); }
+    .nav .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 1.2rem; text-decoration: none; }
+    .brand img { width: 34px; height: 34px; }
+    .nav-links { display: flex; gap: 22px; margin-left: auto; font-size: .92rem; }
+    .nav-links a { text-decoration: none; color: var(--ink-dim); }
+    .nav-links a:hover { color: var(--ink); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 22px; border-radius: 12px; font-family: var(--display); font-weight: 700; font-size: 1rem; text-decoration: none; border: 1px solid transparent; transition: transform .15s ease, filter .15s ease, border-color .15s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-main { background: var(--jade); color: var(--jade-ink); box-shadow: 0 12px 40px -12px color-mix(in srgb, var(--jade) 70%, transparent); }
+    .btn-main:hover { filter: brightness(1.08); }
+    .btn-ghost { border-color: var(--line); color: var(--ink); background: var(--panel); }
+    .btn-ghost:hover { border-color: var(--ink-dim); }
+    .btn-sm { padding: 8px 14px; font-size: .9rem; }
+    .btn svg { width: 20px; height: 20px; flex: none; }
+
+    /* Portada */
+    .hero { position: relative; overflow: hidden; padding: 80px 0 40px; text-align: center; }
+    .hero::before { content: ""; position: absolute; inset: -20% -10% auto; height: 700px; background: radial-gradient(600px 380px at 30% 30%, rgba(63, 209, 168, .22), transparent 70%), radial-gradient(600px 420px at 75% 20%, rgba(255, 181, 71, .12), transparent 70%); pointer-events: none; }
+    .hero > .wrap { position: relative; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink-dim); font-size: .85rem; margin-bottom: 22px; }
+    .pill b { color: var(--jade); }
+    .hero h1 { font-size: clamp(2.2rem, 5.4vw, 4rem); max-width: 20ch; margin: 0 auto 18px; }
+    .hero h1 .r { color: var(--red); }
+    .hero p.lead { font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--ink-dim); max-width: 60ch; margin: 0 auto 32px; }
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .cta-note { margin-top: 14px; font-size: .85rem; color: var(--ink-dim); }
+    .shot { margin: 56px auto 0; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 50px 120px -40px rgba(0, 0, 0, .9), 0 0 0 1px rgba(63, 209, 168, .15); }
+
+    /* Plataformas */
+    .stores { padding: 28px 0 10px; text-align: center; color: var(--ink-dim); font-size: .92rem; }
+    .stores ul { list-style: none; padding: 0; margin: 12px 0 0; display: flex; gap: 10px 26px; justify-content: center; flex-wrap: wrap; font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--ink); }
+
+    /* Secciones */
+    section { padding: 80px 0; }
+    .section-head { text-align: center; margin-bottom: 44px; }
+    .section-head h2 { font-size: clamp(1.8rem, 4vw, 2.7rem); margin-bottom: 12px; }
+    .section-head p { color: var(--ink-dim); max-width: 58ch; margin: 0 auto; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    @media (max-width: 960px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+    .card { padding: 22px; border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(180deg, var(--panel), var(--bg-2)); }
+    .card .ic { font-size: 1.6rem; margin-bottom: 10px; }
+    .card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+    .card p { margin: 0; color: var(--ink-dim); font-size: .95rem; }
+
+    /* Funciones destacadas (imagen + texto) */
+    .feature { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; }
+    .feature + .feature { margin-top: 90px; }
+    .feature.flip > :first-child { order: 2; }
+    .feature img { margin-inline: auto; max-height: 560px; width: auto; border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); }
+    .feature h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 14px; }
+    .feature p { color: var(--ink-dim); margin: 0 0 14px; }
+    .feature ul { margin: 0; padding-left: 20px; color: var(--ink-dim); }
+    .feature li { margin: 6px 0; }
+    .tag { display: inline-block; font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--jade); margin-bottom: 10px; }
+    .t { color: var(--twitch); } .k { color: var(--kick); }
+
+    .new { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--amber); color: #2a1a00; font-size: .7rem; letter-spacing: .06em; vertical-align: middle; }
+    .feature img.tall { max-height: 520px; }
+
+    /* Mensaje de Discord de ejemplo (bot /zeni) */
+    .dc { max-width: 520px; margin-inline: auto; padding: 18px 18px 20px; border-radius: 16px; background: #313338; border: 1px solid #1e1f22; box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8); font-size: .92rem; color: #dbdee1; }
+    .dc-cmd { display: flex; align-items: center; gap: 8px; margin: 0 0 12px 52px; font-size: .8rem; color: #949ba4; }
+    .dc-cmd b { color: #c9cdfb; font-weight: 500; }
+    .dc-msg { display: grid; grid-template-columns: 40px 1fr; gap: 12px; }
+    .dc-msg + .dc-msg { margin-top: 18px; }
+    .dc-av { width: 40px; height: 40px; border-radius: 50%; background: #0f2420 url(/img/logo.svg?v=2) center / 70% no-repeat; }
+    .dc-name { font-weight: 600; color: #fff; }
+    .dc-bot { margin-left: 6px; padding: 1px 5px; border-radius: 4px; background: #5865f2; color: #fff; font-size: .62rem; font-weight: 700; vertical-align: 2px; }
+    .dc-time { margin-left: 6px; font-size: .74rem; color: #949ba4; }
+    .dc-embed { margin-top: 6px; padding: 12px 16px; border-radius: 4px; border-left: 4px solid var(--jade); background: #2b2d31; }
+    .dc-embed b { display: block; margin-bottom: 6px; color: #fff; }
+    .dc-embed p { margin: 2px 0; color: #dbdee1; font-size: .88rem; }
+    .dc-embed small { display: block; margin-top: 8px; color: #949ba4; font-size: .72rem; }
+    .dc-text { margin: 2px 0 0; }
+
+    /* Video */
+    .video { display: grid; grid-template-columns: auto 1fr; gap: 48px; align-items: center; }
+    .video video { width: 300px; border-radius: 22px; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px #000; background: #000; }
+
+    /* Preguntas */
+    .faq { max-width: 780px; margin: 0 auto; display: grid; gap: 10px; }
+    .faq details { border: 1px solid var(--line); border-radius: 14px; background: var(--panel); padding: 4px 20px; }
+    .faq summary { cursor: pointer; font-family: var(--display); font-weight: 600; font-size: 1.05rem; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "+"; color: var(--jade); font-size: 1.3rem; line-height: 1; }
+    .faq details[open] summary::after { content: "−"; }
+    .faq details p { margin: 0 0 16px; color: var(--ink-dim); }
+
+    /* Descarga y apoyo */
+    .final { text-align: center; padding: 90px 0 50px; position: relative; overflow: hidden; }
+    .final::before { content: ""; position: absolute; inset: 0; background: radial-gradient(600px 300px at 50% 40%, rgba(63, 209, 168, .16), transparent 70%); pointer-events: none; }
+    .final > .wrap { position: relative; }
+    .final img.logo { width: 120px; height: 120px; margin: 0 auto 20px; }
+    .final h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 12px; }
+    .final p { color: var(--ink-dim); margin: 0 auto 28px; max-width: 50ch; }
+    .kofi { margin: 56px auto 0; max-width: 640px; padding: 26px; border-radius: 18px; border: 1px solid color-mix(in srgb, var(--kofi) 40%, var(--line)); background: color-mix(in srgb, var(--kofi) 7%, var(--panel)); }
+    .kofi h3 { font-size: 1.3rem; margin-bottom: 8px; }
+    .kofi p { margin: 0 auto 18px; max-width: 48ch; }
+    .btn-kofi { background: var(--kofi); color: #fff; }
+
+
+    /* Aparición al hacer scroll */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.22, 1, .36, 1); }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } .btn:hover { transform: none; } }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .nav .btn { margin-left: auto; }
+      .feature, .video { grid-template-columns: 1fr; gap: 28px; }
+      .feature.flip > :first-child { order: 0; }
+      .video video { width: min(300px, 100%); margin: 0 auto; }
+      section { padding: 60px 0; }
+      .hero { padding-top: 56px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="/en/"><img src="/img/logo.svg?v=2" alt="">ZeniPlatform</a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#funciones">Features</a>
+        <a href="#preguntas">FAQ</a>
+        <a href="#apoyar">Support</a>
+        <a href="/en/signup">Create account</a>
+      </nav>
+      <a class="lang-switch" href="/" hreflang="es" lang="es" aria-label="Cambiar a español" title="Cambiar a español"><span aria-hidden="true">🌐</span> ES</a>
+      <a class="btn btn-main btn-sm" href="#descargar">Download for free</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <span class="pill"><b>New: Zeni 2.0</b> · Missions, weekly recap and a Discord bot</span>
+        <h1>The LoL and Valorant launcher that <span class="r">stops</span> you before you tilt</h1>
+        <p class="lead">All your Steam, Epic, Riot and Xbox games in one place, with your real playtime and missions that give you XP. And for ranked: your rank and LP at a glance, a stop-loss and your favorite streamers live.</p>
+        <div class="cta-row">
+          <a class="btn btn-main" data-download href="#descargar">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.1 10.4 4v7.1H3zm0 13.8L10.4 20v-7.1H3zm8.3 1.2L21 21.5v-8.6h-9.7zm0-16.2v7.3H21V2.5z"/></svg>
+            Download for Windows
+          </a>
+          <a class="btn btn-ghost" href="#funciones">See features</a>
+        </div>
+        <p class="cta-note">Free · Windows 10 and 11 · No ads · No account required<br>The Zeni app is currently available in Spanish only.</p>
+        <img class="shot reveal" src="/img/s1-library.webp" width="1600" height="900" fetchpriority="high" alt="ZeniPlatform library with League of Legends, Valorant and other games, rank and today's session">
+      </div>
+    </section>
+
+    <div class="stores">
+      <div class="wrap">
+        Finds your games from
+        <ul><li>Steam</li><li>Epic Games</li><li>Riot</li><li>Xbox</li></ul>
+      </div>
+    </div>
+
+    <section id="funciones">
+      <div class="wrap">
+        <div class="feature flip reveal">
+          <img src="/img/s1-library.webp" width="1600" height="900" loading="lazy" alt="ZeniPlatform library with all your Steam, Epic, Riot and Xbox games together">
+          <div>
+            <span class="tag">Your library</span>
+            <h3>No more digging for games <em>in a thousand folders</em></h3>
+            <p>Zeni automatically finds the games you have installed on Steam, Epic Games, Riot and Xbox, and arranges them in a library with cover art. No more opening four different launchers or filling your desktop with shortcuts.</p>
+            <ul>
+              <li>Detects your games instantly, with nothing to set up.</li>
+              <li>Search any game by typing its name (shortcut <b>/</b>).</li>
+              <li>Favorites, recently played and a page for each game with screenshots.</li>
+              <li><b>Real playtime</b>: today, this week and in total, measured only while the game is open.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature reveal">
+          <img class="tall" src="/img/s9-tidy.webp" width="460" height="602" loading="lazy" alt="Clean up your desktop: Zeni stores your game shortcuts and adds them to your library">
+          <div>
+            <span class="tag">Clean desktop <span class="new">New</span></span>
+            <h3>A <em>clean</em> desktop in one click</h3>
+            <p>Zeni finds the game shortcuts scattered across your desktop, adds them to your library and stores them in a folder. Even those from launchers it doesn't detect on its own, like Battle.net or Minecraft.</p>
+            <ul>
+              <li>You choose which ones to move.</li>
+              <li>Nothing gets deleted: you can put them back on your desktop anytime.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature flip reveal">
+          <img class="tall" src="/img/s6-missions.webp" width="880" height="832" loading="lazy" alt="Today's, weekly, monthly and yearly missions with their XP">
+          <div>
+            <span class="tag">Missions and levels <span class="new">New</span></span>
+            <h3>Play what you love and <em>level up</em></h3>
+            <p>Daily, weekly, monthly and yearly missions for any game: play for 1 hour today, try 2 new games this month, play on 150 days this year. The long ones give thousands of XP.</p>
+            <ul>
+              <li>Everyone gets the same missions each day: compete with your friends.</li>
+              <li>More than 20 achievements, for 100 hours played or 100 missions claimed.</li>
+              <li>Unlock avatars, titles, colors, animated backgrounds and fire, galaxy and rainbow frames for your profile.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature reveal">
+          <img src="/img/s3-guard.webp" width="1180" height="640" loading="lazy" alt="Stop-loss warning: you have lost 2 League of Legends games in a row">
+          <div>
+            <span class="tag">Stop-loss</span>
+            <h3>"Just one more"… <em>not anymore.</em></h3>
+            <p>Zeni counts today's games. If you lose several in a row, it warns you before you open another ranked game and suggests a break. It's still your call, but now you'll think twice.</p>
+            <ul>
+              <li>Configurable stop-loss: you choose after how many losses.</li>
+              <li>Daily ranked limit.</li>
+              <li>Works with League of Legends and Valorant.</li>
+              <li><b>Zen Mode</b>: one minute of guided breathing to cool your head.</li>
+              <li>A <b>saved LP</b> counter for every time you stop in time.</li>
+            </ul>
+            <p style="margin-top: 14px;"><a href="/en/guides/how-not-to-tilt-in-lol" style="color: var(--jade);">Read the guide: how not to tilt in LoL →</a></p>
+          </div>
+        </div>
+
+        <div class="feature flip reveal">
+          <img src="/img/s2-drawer.webp" width="900" height="964" loading="lazy" alt="League of Legends page with Gold II rank, 64 LP and today's games">
+          <div>
+            <span class="tag">Live rank</span>
+            <h3>Your <em>rank and LP</em> always at a glance</h3>
+            <p>Enter your Riot ID once and Zeni shows your rank, your LP and today's games, with champion and KDA, right in your library.</p>
+          </div>
+        </div>
+
+        <div class="feature reveal">
+          <img src="/img/s8-matchup.webp" width="2150" height="108" loading="lazy" style="border-radius: 999px;" alt="LoLalytics bar inside Zeni with 'ahri vs zed mid' typed in the matchup field">
+          <div>
+            <span class="tag">Matchups <span class="new">New</span></span>
+            <h3>Your matchup in <em>2 seconds</em></h3>
+            <p>Open LoLalytics inside Zeni, type <b>"ahri vs zed mid"</b> in the top bar and press Enter: Zeni takes you to the exact matchup page, with build, runes and lane. No Google, no tabs.</p>
+            <ul>
+              <li>Understands nicknames: mf, j4, cait, yi…</li>
+              <li>Always up to date with new champions.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature flip reveal">
+          <img class="tall" src="/img/s7-wrapped.webp" width="720" height="900" loading="lazy" alt="Zeni Wrapped: a card with your hours played this week, your games and your stats">
+          <div>
+            <span class="tag">Zeni Wrapped <span class="new">New</span></span>
+            <h3>Your gaming week <em>in one image</em></h3>
+            <p>Every Monday, Zeni puts together your recap: hours played, your top games, your best day, ranked, saved LP and XP earned. Copy it and share it on Discord, WhatsApp or social media.</p>
+          </div>
+        </div>
+
+        <div class="feature reveal">
+          <div class="dc" role="img" aria-label="Example of the Zeni bot on Discord: server ranking and stop-loss notice">
+            <p class="dc-cmd">↳ <b>Seba</b> used <b>/zeni ranking</b></p>
+            <div class="dc-msg">
+              <span class="dc-av"></span>
+              <div>
+                <span class="dc-name">Zeni</span><span class="dc-bot">APP</span><span class="dc-time">today at 9:14 PM</span>
+                <div class="dc-embed">
+                  <b>🏆 LoL ranking (Solo/Duo)</b>
+                  <p>🥇 Cami — Diamond IV · 32 LP</p>
+                  <p>🥈 Seba — Emerald I · 78 LP</p>
+                  <p>🥉 Nico — Platinum II · 15 LP</p>
+                  <p><b style="display:inline">4.</b> Vale — Gold I · 90 LP</p>
+                  <small>Join with /zeni unirme · Zeni</small>
+                </div>
+              </div>
+            </div>
+            <div class="dc-msg">
+              <span class="dc-av"></span>
+              <div>
+                <span class="dc-name">Zeni</span><span class="dc-bot">APP</span><span class="dc-time">today at 10:41 PM</span>
+                <p class="dc-text">🧘 <b style="color:#fff">Nico</b> hit their stop-loss in League of Legends after 2 losses in a row. A well-earned break: back tomorrow with a cool head. 💚</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <span class="tag">Discord bot <span class="new">New</span></span>
+            <h3>Zeni comes to <em>your server</em></h3>
+            <p>Add the Zeni bot to your Discord server and share the grind with your group.</p>
+            <ul>
+              <li><b>/zeni rango</b>: your rank and LP, or a friend's.</li>
+              <li><b>/zeni ranking</b>: the server leaderboard. Who's in first?</li>
+              <li>A recap of the day's ranked games, every night.</li>
+              <li>A notice when someone stops in time with their stop-loss (if they turn it on).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature flip reveal">
+          <img src="/img/s5-live.webp" width="1500" height="665" loading="lazy" alt="Live section with Twitch and Kick streams">
+          <div>
+            <span class="tag">Live</span>
+            <h3><span class="t">Twitch</span> and <span class="k">Kick</span> without opening a browser</h3>
+            <p>Link your accounts and see which streamers you follow are live. Click one and the stream opens inside Zeni, alongside OP.GG, U.GG, LoLalytics and Tracker.gg.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>Everything you need, <em>nothing in the way</em></h2>
+          <p>Light, fast and built for competitive players.</p>
+        </div>
+        <div class="grid">
+          <div class="card reveal"><div class="ic">🎮</div><h3>One library</h3><p>Steam, Epic, Riot and Xbox together, with cover art and a page for each game.</p></div>
+          <div class="card reveal"><div class="ic">☁️</div><h3>Your Zeni on any PC</h3><p>Sign in and your settings, favorites and ranked history sync automatically.</p></div>
+          <div class="card reveal"><div class="ic">🔄</div><h3>Updates itself</h3><p>New versions in one click, signed so that only official Zeni gets installed.</p></div>
+          <div class="card reveal"><div class="ic">🎨</div><h3>Your style</h3><p>Color palettes, light or dark theme and exclusive colors you unlock by leveling up.</p></div>
+          <div class="card reveal"><div class="ic">🤝</div><h3>Invite and earn</h3><p>Share your code: when a friend joins, you earn XP and exclusive frames for your profile.</p></div>
+          <div class="card reveal"><div class="ic">⚡</div><h3>Lightweight</h3><p>A ~3 MB installer, and much lighter than keeping a browser open.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap video">
+        <video class="reveal" src="/img/demo.mp4" poster="/img/demo-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="ZeniPlatform demo video"></video>
+        <div class="reveal">
+          <span class="tag">In 30 seconds</span>
+          <h3 style="font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 14px;">See Zeni in action</h3>
+          <p style="color: var(--ink-dim);">Open the app, check your rank, see who's live and let Zeni look after your LP.</p>
+          <a class="btn btn-main" data-download href="#descargar" style="margin-top: 10px;">Download for free</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="preguntas">
+      <div class="wrap">
+        <div class="section-head reveal"><h2>Frequently asked questions</h2></div>
+        <div class="faq">
+          <details class="reveal"><summary>Is it free?</summary><p>Yes, and it always will be for players. No ads, and we don't sell your data.</p></details>
+          <details class="reveal"><summary>Is the app in English?</summary><p>Not yet: the Zeni app is currently available in Spanish only. This website is available in both languages.</p></details>
+          <details class="reveal"><summary>Windows says "Windows protected your PC". Is it safe?</summary><p>Yes. It appears because Zeni is a new app and doesn't have a Windows signing certificate yet (they are very expensive for an independent project). Click <b>More info → Run anyway</b>. Updates are signed: Zeni only installs official versions.</p></details>
+          <details class="reveal"><summary>Do I need an account?</summary><p>No. The library, the stop-loss and the ranked limit work without one. A Zeni account is optional and lets you see your LoL rank, sync across PCs, link Twitch, Kick and Discord, and earn XP with missions and achievements.</p></details>
+          <details class="reveal"><summary>Can Riot ban me for using Zeni?</summary><p>No. Zeni doesn't touch game files or interfere with your matches: it only opens the game and checks your rank with Riot's official API, just like OP.GG.</p></details>
+          <details class="reveal"><summary>Do missions work with any game?</summary><p>Yes. Missions use what Zeni measures in any game in your library: playtime, days played, different games and new games. If you play LoL or Valorant ranked, ranked missions show up too. To claim the XP you need a free Zeni account.</p></details>
+          <details class="reveal"><summary>How do I add the Discord bot to my server?</summary><p>In Zeni, open <b>Settings</b> (Ajustes) and, in the Discord section, click <b>Add the bot to a server</b> (Agregar el bot a un servidor). Then each person types <b>/zeni unirme</b> (with their Discord linked in Zeni) and the server admins choose the recap channel with <b>/zeni canal</b>.</p></details>
+          <details class="reveal"><summary>How does it update?</summary><p>By itself. When a new version comes out, Zeni lets you know and installs it in one click, without losing your data.</p></details>
+          <details class="reveal"><summary>I found a bug or have an idea</summary><p>Tell us! Inside Zeni, in the sidebar, click <b>Send feedback</b> (Enviar comentarios). We read every message.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final" id="descargar">
+      <div class="wrap">
+        <img class="logo reveal" src="/img/logo.svg?v=2" alt="">
+        <h2 class="reveal">Download <em>ZeniPlatform</em></h2>
+        <p class="reveal">Free for Windows 10 and 11. Installs in seconds and updates itself.</p>
+        <div class="cta-row reveal">
+          <a class="btn btn-main" data-download href="#">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.1 10.4 4v7.1H3zm0 13.8L10.4 20v-7.1H3zm8.3 1.2L21 21.5v-8.6h-9.7zm0-16.2v7.3H21V2.5z"/></svg>
+            Download for Windows
+          </a>
+        </div>
+        <p class="cta-note reveal" id="version-note">Latest version</p>
+
+        <div class="kofi reveal" id="apoyar">
+          <h3>☕ Did Zeni save your LP?</h3>
+          <p>Zeni is free and we build it in our spare time. If you like it, a coffee helps keep the server running and adds new features.</p>
+          <a class="btn btn-kofi" href="https://ko-fi.com/zushibld" target="_blank" rel="noopener">Support us on Ko-fi</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="f-wrap">
+      <div class="f-top">
+        <div class="f-brand">
+          <a class="f-logo" href="/en/"><img src="/img/logo.svg?v=2" alt="">ZeniPlatform</a>
+          <p>The launcher for competitive players that stops you before you tilt. Free for Windows.</p>
+          <a class="f-dl" href="https://github.com/ZeniPlatform/Zeni-releases/releases/latest/download/ZeniPlatform-setup.exe">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5.1 10.4 4v7.1H3zm0 13.8L10.4 20v-7.1H3zm8.3 1.2L21 21.5v-8.6h-9.7zm0-16.2v7.3H21V2.5z"/></svg>
+            Download for free
+          </a>
+        </div>
+        <nav class="f-col" aria-label="Product">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#funciones">Features</a></li>
+            <li><a href="#preguntas">FAQ</a></li>
+            <li><a href="/en/signup">Create account</a></li>
+            <li><a href="/en/guides/how-not-to-tilt-in-lol">Guide: how not to tilt in LoL</a></li>
+            <li><a href="https://github.com/ZeniPlatform/Zeni-releases/releases" target="_blank" rel="noopener">What's new</a></li>
+          </ul>
+        </nav>
+        <nav class="f-col" aria-label="Community">
+          <h4>Community</h4>
+          <ul>
+            <li><a class="ig-link" href="https://www.instagram.com/zeni_platform/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> Follow us on Instagram</a></li>
+            <li><a class="kofi-link" href="https://ko-fi.com/zushibld" target="_blank" rel="noopener"><span aria-hidden="true">♥</span> Support us on Ko-fi</a></li>
+            <li><a href="mailto:contacto@zeni-platform.cl">contacto@zeni-platform.cl</a></li>
+          </ul>
+        </nav>
+        <nav class="f-col" aria-label="Legal">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/en/terms">Terms of Service</a></li>
+            <li><a href="/en/privacy">Privacy Policy</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="f-bottom">
+        <span>© 2026 ZeniPlatform. All rights reserved.</span>
+        <span class="made">Made in Chile <svg class="flag" viewBox="0 0 30 20" aria-label="Chile" role="img"><rect width="30" height="20" fill="#d52b1e"/><rect width="30" height="10" fill="#fff"/><rect width="10" height="10" fill="#0039a6"/><path fill="#fff" d="M5 2.2l.66 2.03h2.13l-1.73 1.25.66 2.03L5 6.26 3.28 7.51l.66-2.03-1.73-1.25h2.13z"/></svg> for every kind of player</span>
+      </div>
+      <p class="f-legal">ZeniPlatform isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc. Steam, Epic Games, Xbox, Twitch, Kick, Discord and all other trademarks belong to their respective owners; ZeniPlatform is not affiliated with any of them.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Descarga directa del instalador más reciente.
+    const DOWNLOAD = "https://github.com/ZeniPlatform/Zeni-releases/releases/latest/download/ZeniPlatform-setup.exe";
+    document.querySelectorAll("[data-download]").forEach((a) => (a.href = DOWNLOAD));
+
+    // Versión publicada (el servidor de Zeni la conoce). Si no responde, el texto queda genérico.
+    fetch("https://api.zeni-platform.cl/v1/app/version")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((v) => { if (v && /^\d+\.\d+\.\d+$/.test(v.latest)) document.getElementById("version-note").textContent = `Version ${v.latest} · ~3 MB`; })
+      .catch(() => {});
+
+    // Aparición suave al hacer scroll.
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  </script>
+  <script src="/notices.js" defer></script>
+</body>
+</html>

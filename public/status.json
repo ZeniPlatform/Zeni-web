@@ -5,7 +5,9 @@
       "level": "warning",
       "title": "Windows Defender puede marcar Zeni por error",
       "message": "Algunos antivirus están marcando el instalador de Zeni como amenaza por error (una detección automática). Ya lo reportamos a Microsoft, y la versión 2.0.2 reduce estas alertas. Descarga Zeni solo desde zeni-platform.cl.",
-      "since": "2026-10-26T08:00:00-03:00"
+      "since": "2026-10-26T08:00:00-03:00",
+      "title_en": "Windows Defender may flag Zeni by mistake",
+      "message_en": "Some antivirus programs are flagging the Zeni installer as a threat by mistake (an automatic detection). We have reported it to Microsoft, and version 2.0.2 reduces these alerts. Only download Zeni from zeni-platform.cl."
     }
   ]
 }

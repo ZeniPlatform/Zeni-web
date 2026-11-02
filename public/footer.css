@@ -87,3 +87,13 @@
 @media (prefers-reduced-motion: reduce) { .zn-pill, .zn-pill:hover { transform: none; } .zn-pill:hover .zn-mark { animation: none; } }
 .f-col .ig-link { display: inline-flex; align-items: center; gap: 8px; }
 .f-col .ig-link svg { width: 16px; height: 16px; color: #e1306c; }
+
+/* Botón de idioma (español / inglés) en el menú */
+.lang-switch { display: inline-flex; align-items: center; gap: 6px; flex: none; height: 34px; margin-left: auto; margin-right: 16px; padding: 0 12px; border-radius: 999px; border: 1px solid #1f3a34; background: #0f2420; color: #e8f3f0; font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: .85rem; text-decoration: none; transition: transform .15s ease, border-color .15s ease; }
+.lang-switch:hover { transform: translateY(-1px); border-color: #3fd1a8; }
+.nav-links + .lang-switch { margin-left: 0; margin-right: 0; }
+.nav .lang-switch + .btn { margin-left: 0; }
+.lang-switch + .zn-wrap { margin-left: 0; }
+@media (max-width: 860px) { .nav-links + .lang-switch { margin-left: auto; } }
+@media (max-width: 480px) { .nav .wrap:has(.lang-switch) { gap: 10px; } .nav .wrap:has(.lang-switch) .brand { font-size: 0; gap: 0; } .lang-switch { margin-right: 0; padding: 0 10px; } .nav a.back { font-size: .8rem; } }
+@media (prefers-reduced-motion: reduce) { .lang-switch:hover { transform: none; } }
