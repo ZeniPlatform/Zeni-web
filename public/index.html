@@ -213,6 +213,13 @@
     .za-btn { background: var(--gold); color: #241a05; box-shadow: 0 12px 40px -14px var(--gold); }
     .za-btn:hover { filter: brightness(1.08); }
     #business { padding-top: 0; }
+    .quotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 18px; }
+    .quote { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; margin: 0; padding: 26px; border-radius: 16px; border: 1px solid var(--line); background: var(--panel); }
+    .quote blockquote { margin: 0; color: var(--ink); line-height: 1.6; }
+    .quote figcaption { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; white-space: nowrap; }
+    .quote figcaption span { color: var(--ink-dim); font-family: var(--body); font-weight: 400; font-size: .9rem; }
+    .quote figcaption i { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--jade); color: var(--jade-ink); font-style: normal; }
+    @media (max-width: 800px) { .quotes { grid-template-columns: minmax(0, 1fr); } }
     .zb-box { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 380px); align-items: center; gap: 40px; padding: 40px; border-radius: 20px; border: 1px solid #1f3a34; background: radial-gradient(700px 300px at 85% 0%, rgba(63, 209, 168, .13), transparent 70%), #0a1f1b; }
     .zb-soon { display: table; margin-bottom: 14px; padding: 5px 15px; border-radius: 999px; background: var(--jade); color: var(--jade-ink); font-family: var(--display); font-weight: 700; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
     .zb-box h2 { margin: 0 0 10px; }
@@ -436,6 +443,33 @@
             <h3><span class="t">Twitch</span> y <span class="k">Kick</span> sin abrir el navegador</h3>
             <p>Vincula tus cuentas y mira qué streamers que sigues están en vivo. Tócalos y el stream se abre dentro de Zeni, junto a OP.GG, U.GG, LoLalytics y Tracker.gg.</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="opiniones">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <h2>Lo que dicen quienes <em>ya lo probaron</em></h2>
+          <p>Personas que ya probaron Zeni, con sus propias palabras.</p>
+        </div>
+        <div class="quotes">
+          <figure class="quote reveal" style="--d:0s">
+            <blockquote>"Me encanta la plataforma, me hace más cómodo poder jugar y ver Twitch sin necesidad de tener el navegador gastándome recursos."</blockquote>
+            <figcaption><i aria-hidden="true">K</i>Kevin</figcaption>
+          </figure>
+          <figure class="quote reveal" style="--d:0.1s">
+            <blockquote>"La App me pareció muy bonita estéticamente, se me hace cómodo encontrar los accesos a mis juegos desde un solo lugar, además los avatares y misiones le agregan emoción al jugar."</blockquote>
+            <figcaption><i aria-hidden="true">V</i>Valentina</figcaption>
+          </figure>
+          <figure class="quote reveal" style="--d:0.2s">
+            <blockquote>"Tenía el escritorio plagado en juegos, pero con Zeni ahora tengo todo ordenado en un solo sitio, además que me encanta jugar Fortnite y siempre lo tengo como mi juego más jugado."</blockquote>
+            <figcaption><i aria-hidden="true">A</i>Axel <span>· Equipo de Zeni</span></figcaption>
+          </figure>
+          <figure class="quote reveal" style="--d:0.3s">
+            <blockquote>"Juego LoL hace mucho tiempo, y existen mil sitios web que me ayudan con información de mis rankeds, pero Zeni es distinto, me ha ayudado a destiltearme y seguir jugando con buen mental."</blockquote>
+            <figcaption><i aria-hidden="true">J</i>Jorge <span>· Equipo de Zeni</span></figcaption>
+          </figure>
         </div>
       </div>
     </section>
