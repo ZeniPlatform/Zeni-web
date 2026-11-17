@@ -28,7 +28,7 @@
 
   <main class="wrap">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: October 21, 2026 · Version 2.0: playtime, Zen breaks, missions, invites and Discord bot</p>
+    <p class="updated">Last updated: November 16, 2026 · Adds Zeni Analytics: Riot games, notes, verified Riot account and AI advice</p>
     <p class="updated">This is a courtesy translation. If there is any conflict, the <a href="/privacidad" hreflang="es">Spanish version</a> prevails.</p>
 
     <div class="summary">
@@ -53,6 +53,12 @@
     <h3>Cleaning up the desktop</h3>
     <p>If you use "Clean up your desktop", Zeni reads your desktop shortcuts to find games and, only if you confirm, moves them to the <i>Documents\Accesos directos (Zeni)</i> folder. It keeps a note of what it moved so it can put them back in one click. None of this leaves your PC.</p>
     <p>If you sign in, the session is stored in Windows Credential Manager on your PC.</p>
+    <h3>In Zeni Analytics</h3>
+    <ul>
+      <li><b>Game data recording</b> (can be turned off in Tus datos): while you play League of Legends, Zeni Analytics reads the official API that the game itself opens on your PC (Live Client Data) and saves the events, your gold on hand and your scoreboard in the app folder. It doesn't record video or your screen, shows nothing during the game, and these files never leave your PC.</li>
+      <li><b>Game start and end:</b> with that same API, the app knows when your game starts and ends so it can ask you the end-of-game questions. Your answers wait on your PC until the game arrives from Riot; then they are saved with it on the server.</li>
+      <li>Background settings (tray, notifications, start with Windows) belong to each PC.</li>
+    </ul>
 
     <h2>3. What data we store on the server</h2>
     <p>Only if you create a Zeni account (it's optional) or use the features that say so:</p>
@@ -72,6 +78,23 @@
         <tr><td><b>Feedback</b></td><td>If you use "Send feedback": the message, its type, the Zeni version, your account (if you were signed in) and a contact email only if you leave one.</td></tr>
       </table>
     </div>
+
+    <h3>Zeni Analytics</h3>
+    <p>Zeni Analytics is a separate app to improve at League of Legends. It uses your same Zeni account and stores on the server:</p>
+    <div class="table-scroll">
+      <table>
+        <tr><th>Data</th><th>What for</th></tr>
+        <tr><td><b>Your verified Riot account</b></td><td>Zeni Analytics works with a single Riot account. We store its Riot ID, its server and the identifier Riot gives that account for our app (PUUID). To check that the account is yours, we ask you to set a profile icon for a few minutes: meanwhile we store which icon we asked for and until when it's valid (15 minutes). We only fetch games, rank and mastery for the verified account.</td></tr>
+        <tr><td><b>Your ranked games</b></td><td>The ones the app fetches from Riot: champion, lane opponent, role, result, KDA, duration, items, spells, runes, level, CS, gold, queue, date, the game identifier and figures calculated from the minute-by-minute timeline (for example, deaths before minute 12 or gold against your opponent at minute 14). From the timeline we keep only those figures, not the whole game.</td></tr>
+        <tr><td><b>What you write down</b></td><td>Your matchup cards (difficulty, wave plan, build, runes, spells and notes), your notes on each game and its VOD (with the link, if you add it), your rating and mood, your goal for the next game and whether you met it, the key moment and the mistakes you mark.</td></tr>
+        <tr><td><b>Your improvement settings</b></td><td>Your goals per role, your session rules (for example, the maximum number of games per day), your weekly plan and whether a game was "no pressure".</td></tr>
+        <tr><td><b>AI advice and feedback</b></td><td>Only if you give permission in the app (you can remove it at any time). We store that you gave permission, the advice or feedback you were shown, the date and a fingerprint of the numbers used (not the numbers).</td></tr>
+      </table>
+    </div>
+    <p><b>If you change your Riot ID</b>, Riot stops finding the old name. When you verify your account again with the new name, we recognize it's the same account and your games are kept. <b>If you verify a different Riot account</b>, we delete the previous account's games and their notes (the app tells you how many first); your matchup cards are kept.</p>
+    <p>Your champion mastery and your rank are fetched from Riot each time and are not stored.</p>
+    <h4>AI advice and feedback</h4>
+    <p>If you give permission, we send two AI services, <b>Anthropic</b> (writes the advice) and <b>OpenAI</b> (reviews it), only already-calculated game numbers: your averages and goals, your winrate and, for each game, champion, opponent, KDA and those figures. <b>We don't send</b> your name, your email, your Riot ID, your notes or your mood. You can remove permission in Tus datos and we stop sending data from that moment.</p>
 
     <h3>Permissions we request when linking accounts</h3>
     <ul>
@@ -115,7 +138,8 @@
       <li><b>Vercel:</b> hosts this website.</li>
       <li><b>GitHub:</b> hosts the installers and updates.</li>
       <li><b>Discord:</b> we receive the feedback you send us there, in a private team channel. If you use the bot, it posts what's described above in the servers you joined.</li>
-      <li><b>Riot Games, Twitch, Kick, Discord and Google (YouTube):</b> only when you use the related feature (rank, "Live" or linking accounts), and only what that feature needs.</li>
+      <li><b>Riot Games, Twitch, Kick, Discord and Google (YouTube):</b> only when you use the related feature (rank, games, "Live" or linking accounts), and only what that feature needs.</li>
+      <li><b>Anthropic and OpenAI</b> (United States): only in Zeni Analytics, only if you give permission for AI advice, and only the game numbers described above.</li>
     </ul>
     <p>If you turn on "Show my activity on Discord", Zeni shares what you're doing in Zeni (for example, which game you're choosing) with the Discord app on your PC. You can turn it off in Settings.</p>
 
@@ -125,12 +149,13 @@
       <li>Sessions expire after 30 days or when you sign out.</li>
       <li>Linked accounts, until you unlink them or delete your account.</li>
       <li>Zen breaks, claimed missions and invites, for as long as you have the account.</li>
+      <li>In Zeni Analytics: your games, notes and advice, while you have the account. A Riot account's games are deleted when you verify another one. The icon challenge expires after 15 minutes.</li>
       <li>Your participation in a Discord server, until you use <code>/zeni salir</code> or delete your account.</li>
       <li>Feedback, for as long as it's useful for improving Zeni.</li>
     </ul>
 
     <h2>7. Your rights</h2>
-    <p><b>You can delete your account yourself</b> at any time from the app: open your profile and click <b>Delete my account</b> (Eliminar mi cuenta). This instantly deletes your account, your synced data, your linked accounts (revoking Zeni's access on each platform), your Kick channels, your Zen breaks, your claimed missions, your invites, your participation in Discord servers and the feedback you sent. We don't receive what's stored only on your PC (playtime, games, settings): you delete it by uninstalling Zeni and selecting the option to remove the application data.</p>
+    <p><b>You can delete your account yourself</b> at any time from the app: open your profile and click <b>Delete my account</b> (Eliminar mi cuenta). This instantly deletes your account, your synced data, your linked accounts (revoking Zeni's access on each platform), your Kick channels, your Zen breaks, your claimed missions, your invites, your participation in Discord servers, the feedback you sent and everything in Zeni Analytics (verified Riot account, games, notes, AI consent and advice). We don't receive what's stored only on your PC (playtime, games, settings): you delete it by uninstalling Zeni and selecting the option to remove the application data.</p>
     <p>You can also ask us at any time to <b>access</b>, <b>correct</b> or <b>delete</b> your data. Write to <a href="mailto:contacto@zeni-platform.cl">contacto@zeni-platform.cl</a> from your account's email and we'll reply within 15 business days. You can also unlink your accounts and sign out directly in the app.</p>
     <p>We process your data in accordance with Chilean personal data protection law.</p>
 
