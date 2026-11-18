@@ -28,7 +28,7 @@
 
   <main class="wrap">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: November 16, 2026 · Adds Zeni Analytics: Riot games, notes, verified Riot account and AI advice</p>
+    <p class="updated">Last updated: November 18, 2026 · Adds password recovery by email (Resend)</p>
     <p class="updated">This is a courtesy translation. If there is any conflict, the <a href="/privacidad" hreflang="es">Spanish version</a> prevails.</p>
 
     <div class="summary">
@@ -67,6 +67,7 @@
         <tr><th>Data</th><th>What for</th></tr>
         <tr><td><b>Email and display name</b></td><td>To identify your account and sign you in.</td></tr>
         <tr><td><b>Password</b></td><td>To sign you in. We never store your password: only an irreversible hash (Argon2id).</td></tr>
+        <tr><td><b>Password recovery</b></td><td>If you use "Forgot your password?", we email you a 6-digit code. We store only a hashed digest of the code, which expires after 15 minutes and is deleted once used. When you change your password, we close the sessions open on your other PCs.</td></tr>
         <tr><td><b>Sessions</b></td><td>To keep you signed in. We store a hash of the session, its expiry date (30 days) and the type of application you signed in from.</td></tr>
         <tr><td><b>Synced data</b></td><td>To keep your Zeni the same on any PC: your settings (including your Riot ID and server, daily limit, stop-loss and Valorant rank), favorites, colors, theme, profile frame, title and avatar (or the photo from a linked account, if you choose to use it) and your manually entered ranked history (game, win or loss, and date).</td></tr>
         <tr><td><b>Linked accounts</b></td><td>If you link Twitch, Kick, Discord or YouTube: your ID, username, display name and profile picture on that platform. For Twitch and YouTube, also the encrypted access that lets us show who's live.</td></tr>
@@ -136,6 +137,7 @@
     <ul>
       <li><b>Railway</b> (United States): hosts our server and database.</li>
       <li><b>Vercel:</b> hosts this website.</li>
+      <li><b>Resend</b> (United States): sends system emails, for now only the password recovery code. It receives your email, your display name and the code.</li>
       <li><b>GitHub:</b> hosts the installers and updates.</li>
       <li><b>Discord:</b> we receive the feedback you send us there, in a private team channel. If you use the bot, it posts what's described above in the servers you joined.</li>
       <li><b>Riot Games, Twitch, Kick, Discord and Google (YouTube):</b> only when you use the related feature (rank, games, "Live" or linking accounts), and only what that feature needs.</li>
